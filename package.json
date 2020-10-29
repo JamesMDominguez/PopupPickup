@@ -1,0 +1,23 @@
+{
+    "name": "may-challenge",
+    "version": "1.0.0",
+    "description": "May outreach tracker",
+    "main": "server.js",
+    "scripts": {
+        "server": "nodemon server.js",
+        "client": "npm run start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "start": "node server.js",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.19.2",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.11",
+        "morgan": "^1.10.0",
+        "path": "^0.12.7"
+    }
+}

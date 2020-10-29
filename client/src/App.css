@@ -1,0 +1,19 @@
+  
+  body {
+    background-color:rgb(106, 178, 161);
+}
+
+h1{
+  color: #ffffff;
+}
+
+.NavBar{
+  background-color:rgb(36 121 125);
+  height:50px;
+}
+.NavBarIcon{
+  color: rgb(255, 255, 255);
+  background-color:rgb(36 121 125);
+  height:50px;
+  width: 50px;
+}
