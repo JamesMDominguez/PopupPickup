@@ -5,7 +5,10 @@ class host extends React.Component {
   constructor() {
     super()
     this.state = {
-      ForumDisplay: "none", NavDisplay: "none", CreateBtnDisplay: "block", LoginBtnDisplay: "block"
+      ForumDisplay: "none",
+      NavDisplay: "none",
+      CreateBtnDisplay: "block",
+      LoginBtnDisplay: "block"
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,49 +56,143 @@ class host extends React.Component {
       <div>
         <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Host</h1>
         <div class="w3-center">
-          <div class="w3-bar ">
-            <button onClick={this.openCreateEvent} className="w3-theme-d1 w3-btn w3-center w3-margin-bottom" style={{ display: this.state.CreateBtnDisplay, width: "100%" }}>Create Profile</button>
-
-            <div style={{ display: this.state.NavDisplay }}>
-              <form onSubmit={this.handleSubmit} className="w3-theme-d3 w3-container w3-display-middle" style={{ width: "30%" }}>
-                <label>
-                  City:
-          <input type="text" name="city" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <label>
-                  Address:
-          <input type="text" name="addy" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <label>
-                  Email:
-          <input type="text" name="email" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <label>
-                  Name:
-          <input type="text" name="name" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <input type="submit" value="Submit" className="w3-theme-d1 w3-btn" />
-              </form>
-            </div>
-            <button onClick={this.closeCreateEvent} style={{ display: this.state.NavDisplay, width: "100%" }} className="w3-theme-d2 w3-btn w3-center">Close</button>
 
 
-            <button onClick={this.openLogin} className="w3-theme-d1 w3-btn w3-margin-bottom" style={{ display: this.state.LoginBtnDisplay, width: "100%" }}>LogIn</button>
-            <div style={{ display: this.state.ForumDisplay }}>
-              <form onSubmit={this.handleSubmit} className="w3-theme-d3 w3-container w3-display-middle" style={{ width: "30%" }}>
-                <label>
-                  Name:
-          <input type="text" name="name" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <label>
-                  Event Code:
-          <input type="text" value={this.state.value} onChange={this.handleChange} className="w3-input w3-animate-input" />
-                </label>
-                <input type="submit" value="Submit" className="w3-theme-d1 w3-btn" />
-              </form>
-            </div>
-            <button onClick={this.closeLogin} style={{ display: this.state.ForumDisplay }} className="w3-theme-d2 w3-btn w3-center">Close</button>
+          <button
+            onClick={this.openCreateEvent}
+            className="w3-theme-d1 w3-btn w3-center w3-margin-bottom"
+            style={{
+              display: this.state.CreateBtnDisplay,
+              width: "20%",
+              borderRadius: "25px",
+              marginLeft: "40%"
+            }}>
+            Create Profile
+        </button>
+
+          <div style={{ display: this.state.NavDisplay }}>
+            <form  //create profile
+              onSubmit={this.handleSubmit}
+              className="w3-theme-d3 w3-container w3-display-middle"
+              style={{ width: "30%", padding: "25px", borderRadius: "25px" }}>
+
+              <input
+                placeholder="Address"
+                type="text"
+                value={this.state.value}
+                onChange={this.handleChange}
+                className="w3-input"
+                style={{ borderRadius: "25px" }}
+              />
+
+              <br />
+
+              <input
+                type="text"
+                placeholder="Name"
+                value={this.state.value}
+                onChange={this.handleChange}
+                className="w3-input"
+                style={{ borderRadius: "25px" }}
+              />
+
+              <br />
+
+              <input
+                type="text"
+                placeholder="Password"
+                value={this.state.value}
+                onChange={this.handleChange}
+                className="w3-input w3-animate-input"
+                style={{ borderRadius: "25px" }}
+              />
+
+              <br />
+
+              <input
+                type="submit"
+                value="Submit"
+                className="w3-theme-d1 w3-btn"
+                style={{ borderRadius: "25px", width: "100%" }}
+              />
+            </form>
           </div>
+
+          <button
+            onClick={this.closeCreateEvent}
+            style={{
+              display: this.state.NavDisplay,
+              width: "20%",
+              borderRadius: "25px",
+              marginLeft: "40%"
+            }}
+            className="w3-theme-d2 w3-btn w3-center">
+            Close
+      </button>
+
+          <button
+            onClick={this.openLogin}
+            className="w3-theme-d1 w3-btn w3-margin-bottom"
+            style={{
+              display: this.state.LoginBtnDisplay,
+              width: "20%",
+              borderRadius: "25px",
+              marginLeft: "40%"
+            }}>
+            LogIn
+      </button>
+
+          <div style={{ display: this.state.ForumDisplay }}>
+            <form //login
+              onSubmit={this.handleSubmit}
+              className="w3-theme-d3 w3-container w3-display-middle"
+              style={{ width: "30%", padding: "25px", borderRadius: "25px" }}>
+
+
+              <input
+                type="text"
+                placeholder="Name"
+                value={this.state.value}
+                onChange={this.handleChange}
+                className="w3-input"
+                style={{ borderRadius: "25px" }}
+              />
+
+              <br />
+
+              <input
+                type="text"
+                placeholder="Password"
+                value={this.state.value}
+                onChange={this.handleChange}
+                className="w3-input"
+                style={{ borderRadius: "25px" }}
+              />
+
+              <br />
+
+              <input
+                type="submit"
+                value="Submit"
+                className="w3-theme-d1 w3-btn"
+                style={{ borderRadius: "25px", width: "100%" }}
+              />
+            </form>
+          </div>
+
+          <button
+            onClick={this.closeLogin}
+            style={{
+              display: this.state.ForumDisplay,
+              width: "20%",
+              borderRadius: "25px",
+              marginLeft: "40%"
+            }}
+            className="w3-theme-d2 w3-btn w3-center">
+            Close
+      </button>
+
+
         </div>
       </div>
     )

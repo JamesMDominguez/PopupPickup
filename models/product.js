@@ -5,8 +5,11 @@ const vendorSchema = new Schema({
     name: {
         type: String
     },
-    items: {
-        type: Array
+    price: {
+        type: Number
+    },
+    quantity: {
+        type: Number
     },
     date_created: {
         type: Date,
@@ -14,4 +17,4 @@ const vendorSchema = new Schema({
     },
 });
 
-const Vendor = mongoose.model("vendors", vendorSchema);
+const Product = mongoose.model("products", vendorSchema);

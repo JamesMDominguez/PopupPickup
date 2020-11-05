@@ -1,8 +1,29 @@
 
 const mongoose = require("mongoose");
 const Vendor = mongoose.model("vendors");
+const Products = mongoose.model("products")
 
 module.exports = (app) => {
+  //geit dat product 4 a vendor
+  app.get("/api/vendors/:vendorId", async (req, res) => {
+    const { vendorId } = req.params;
+ 
+    const allProducts = await Products.find();
+    res.send(allProducts);
+  });
+
+  app.post("/api/vendors/:vendorId", async (req, res) => {
+    const { vendorId } = req.params;
+    const { name, price, quantity} = req.body;
+    console.log(req.body)
+    const newProduct = await Products.create({
+      name, price, quantity
+    });
+
+    const allProducts = await Products.find();
+    res.send(allProducts);
+  });
+
   //generic get all vendors route (caution - big)
   app.get("/api/vendors", async (req, res) => {
     const allVendors = await Vendor.find();

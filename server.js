@@ -6,13 +6,16 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 
 // DB config
-const mongoURI = process.env.MONGODB_URI || "mongodb://localhost/may-challenge";
-
+//const mongoURI = process.env.MONGODB_URI || "mongodb://localhost/PopupPickup";
+const mongoURI = 'mongodb+srv://JamesDominguez:dominguez@cluster0.y2ep1.mongodb.net/app_users?retryWrites=true&w=majority';
 mongoose.connect(mongoURI, { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 // Models
 require("./models/event");
+require("./models/product");
+require("./models/vendor");
+require("./models/customer");
 
 // Middleware start
 const app = express();
@@ -24,6 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Route Files
 require("./routes/eventsRoutes")(app);
+require("./routes/vendorRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   // express will serve production assets (main.js/css)
