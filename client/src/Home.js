@@ -8,8 +8,11 @@ class Home extends React.Component {
         this.state = {       value: 'Loaction_City'}
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+        // this.initMap = this.initMap.bind(this);
 
+    }
+    // async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4&callback=initMap"
+    // type="text/javascript"
     handleChange(event) {
         this.setState({value: event.target.value});
       }
@@ -18,7 +21,17 @@ class Home extends React.Component {
         alert('An essay was submitted: ' + this.state.value);
         event.preventDefault();
       }
-    
+//    initMap() {
+//   const uluru = { lat: -25.344, lng: 131.036 };
+//   const map = new google.maps.Map(document.getElementById("map"), {
+//     zoom: 4,
+//     center: uluru,
+//   });
+//   const marker = new google.maps.Marker({
+//     position: uluru,
+//     map: map,
+//   });
+// }
     
     render() {
 
@@ -36,8 +49,8 @@ class Home extends React.Component {
         <input type="submit" value="Submit" className="w3-theme-d1 w3-btn w3-block w3-margin-bottom"/>
       </form>
       </div>
+      {/* <div id="map"></div> */}
 
-        <img  className="centerIMG" src="https://www.specialtyansweringservice.net/wp-content/uploads/coverage/california-answering-service/oakland/Oakland-map.jpg" width="100%" height="400px"/>
     </div>
         )
     }

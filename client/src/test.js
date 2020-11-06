@@ -6,7 +6,8 @@ import axios from "axios";
 const defaultValues = {
     name: "",
     price: "",
-    quantity: ""
+    quantity: "",
+    imgURL:""
 }
 
 const Test = () => {
@@ -31,29 +32,30 @@ const Test = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Test</h1>
+            <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Vendor Inventory</h1>
 
-            { products.map(p => (
-                <Item
-                    vendor="JSM"
-                    productName={p.name}
-                    price={p.price}
-                    quantity={p.quantity}
-                />
-            ))}
-
-            <div>
+            <div className="container">
+                {products.map(p => (
+                    <Item
+                        imgURL={p.imgURL}
+                        productName={p.name}
+                        price={p.price}
+                        quantity={p.quantity}
+                    />
+                ))}
+            </div>
+            <div style={{ paddingLeft: "30%" }}>
                 <form //login
                     onSubmit={handleSubmit}
                     className="w3-theme-d3 w3-container"
-                    style={{ width: "30%", padding: "25px", borderRadius: "25px" }}>
+                    style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
 
                     <input
                         type="text"
                         placeholder="Name"
                         value={inputs.name}
-                        onChange={e => setInputs({...inputs, name: e.target.value})}
+                        onChange={e => setInputs({ ...inputs, name: e.target.value })}
                         className="w3-input"
                         style={{ borderRadius: "25px" }}
                     />
@@ -64,7 +66,7 @@ const Test = () => {
                         type="text"
                         placeholder="Price"
                         value={inputs.price}
-                        onChange={e => setInputs({...inputs, price: e.target.value})}
+                        onChange={e => setInputs({ ...inputs, price: e.target.value })}
                         className="w3-input"
                         style={{ borderRadius: "25px" }}
                     />
@@ -75,12 +77,19 @@ const Test = () => {
                         type="text"
                         placeholder="Quantity"
                         value={inputs.quantity}
-                        onChange={e => setInputs({...inputs, quantity: e.target.value})}
+                        onChange={e => setInputs({ ...inputs, quantity: e.target.value })}
                         className="w3-input"
                         style={{ borderRadius: "25px" }}
                     />
 
                     <br />
+
+                    <input
+                        type="file"
+                        id="upload-button"
+                        onChange={e => setInputs({ ...inputs, imgURL: URL.createObjectURL(e.target.files[0]) })}
+                        style={{ paddingBottom: "5%"}}
+                    />
 
                     <input
                         type="submit"
@@ -91,13 +100,9 @@ const Test = () => {
                 </form>
             </div>
 
-
         </div>
     )
 }
 
 
 export default Test;
-/*
-
-*/

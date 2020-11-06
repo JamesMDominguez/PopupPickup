@@ -11,6 +11,9 @@ const vendorSchema = new Schema({
     quantity: {
         type: Number
     },
+    imgURL: {
+        type: String
+    },
     date_created: {
         type: Date,
         default: Date.now,

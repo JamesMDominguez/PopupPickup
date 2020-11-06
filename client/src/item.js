@@ -1,27 +1,18 @@
 import React from "react"
 import './App.css';
 
-const Item = ({ vendor, productName, price, quantity }) =>
+const Item = ({ productName, price, quantity,imgURL }) =>
     (
-        <div>
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "25% 25% 25% 25%",
-                    width: "80%",
-                    backgroundColor: "rgb(36 121 125)",
-                    borderRadius: "25px",
-                    paddingLeft: "2%",
-                    marginLeft: "10%"
-
-                }}>
-                <p>{vendor}</p>
+            <div className="item">
+                <img src={imgURL}
+                alt="Avatar" style={{width:"70%",height:"auto",borderRadius:"30px"}}/>
                 <p>{productName}</p>
-                <p>${price}</p>
-                <p>{quantity}</p>
-
+                <p>Price:${price}</p>
+                <p>Qty:{quantity}</p>
             </div>
-            <br />
-        </div>
+
     )
 export default Item;
+
+
+

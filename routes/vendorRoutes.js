@@ -14,10 +14,10 @@ module.exports = (app) => {
 
   app.post("/api/vendors/:vendorId", async (req, res) => {
     const { vendorId } = req.params;
-    const { name, price, quantity} = req.body;
+    const { name, price, quantity,imgURL} = req.body;
     console.log(req.body)
     const newProduct = await Products.create({
-      name, price, quantity
+      name, price, quantity,imgURL
     });
 
     const allProducts = await Products.find();
