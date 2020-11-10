@@ -1,5 +1,7 @@
 import React from "react"
 import './App.css';
+import GoogleLogin from "./GoogleLogin";
+import { GoogleLogout } from 'react-google-login';
 
 class host extends React.Component {
   constructor() {
@@ -192,8 +194,15 @@ class host extends React.Component {
             Close
       </button>
 
-
         </div>
+
+      <GoogleLogin/>
+      <GoogleLogout
+      clientId="1007864084087-lnkgf4coj0uplienjl9s9lj20mqa2via.apps.googleusercontent.com"
+      buttonText="Logout"
+    >
+    </GoogleLogout>
+
       </div>
     )
   }

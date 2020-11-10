@@ -11,7 +11,7 @@ const vendorSchema = new Schema({
     date_created: {
         type: Date,
         default: Date.now,
-    },
+    }
 });
 
 const Vendor = mongoose.model("vendors", vendorSchema);

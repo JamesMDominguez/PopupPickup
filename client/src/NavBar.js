@@ -1,7 +1,6 @@
 import React from 'react';
 import Host from './host';
 import Home from './Home';
-import Vendor from './vendor';
 import Test from './test';
 
 import './App.css';
@@ -44,9 +43,8 @@ w3_open() {
   <div className="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left w3-theme-d2" style={style} >
    <button onClick={this.w3_close} className="3-bar-item w3-button w3-large w3-hover-opacity">Close</button>
      <Link to="/" className="w3-bar-item w3-button w3-hover-opacity">Home</Link>
-     <Link to="/Host/" className="w3-bar-item w3-button w3-hover-opacity">Host</Link>
-     <Link to="/Vendor/" className="w3-bar-item w3-button w3-hover-opacity">Vendor</Link>
-     <Link to="/Test/" className="w3-bar-item w3-button w3-hover-opacity">Test</Link>
+     <Link to="/Host/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>
+     <Link to="/Test/" className="w3-bar-item w3-button w3-hover-opacity">Inventory</Link>
 
    </div>
 
@@ -55,7 +53,6 @@ w3_open() {
   </div>
   <Route exact path="/" component={Home} />
   <Route path="/Host" component={Host} />
-  <Route path="/Vendor" component={Vendor} />
   <Route path="/Test" component={Test} />
 </Router>
 </div>

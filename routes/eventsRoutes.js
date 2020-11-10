@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Event = mongoose.model("events");
 
 module.exports = (app) => {
+  
   //generic get all events route (caution - big)
   app.get("/api/events", async (req, res) => {
     const allEvents = await Event.find();
@@ -47,3 +48,4 @@ module.exports = (app) => {
     res.send(allEvents);
   });
 };
+
