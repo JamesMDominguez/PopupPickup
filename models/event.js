@@ -2,17 +2,14 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const eventSchema = new Schema({
-    name: {
+    eventName: {
         type: String
     },
-    City: {
-        type: String
-    },
-    eventCode: {
+    longitude: {
         type: Number
     },
-    Vendors: {
-        type: Array
+    latitude: {
+        type: Number
     },
     date_created: {
         type: Date,

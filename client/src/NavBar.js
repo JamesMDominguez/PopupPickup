@@ -2,6 +2,7 @@ import React from 'react';
 import Host from './host';
 import Home from './Home';
 import Test from './test';
+import Event from './event';
 
 import './App.css';
 import './css/Nav.css';
@@ -45,6 +46,7 @@ w3_open() {
      <Link to="/" className="w3-bar-item w3-button w3-hover-opacity">Home</Link>
      <Link to="/Host/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>
      <Link to="/Test/" className="w3-bar-item w3-button w3-hover-opacity">Inventory</Link>
+     <Link to="/Event/" className="w3-bar-item w3-button w3-hover-opacity">Events</Link>
 
    </div>
 
@@ -54,6 +56,8 @@ w3_open() {
   <Route exact path="/" component={Home} />
   <Route path="/Host" component={Host} />
   <Route path="/Test" component={Test} />
+  <Route path="/Event" component={Event} />
+
 </Router>
 </div>
         )
