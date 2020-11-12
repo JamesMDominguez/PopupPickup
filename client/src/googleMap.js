@@ -1,42 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import GoogleMapReact from 'google-map-react';
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-class googleMap extends Component {
-  static defaultProps = {
+  const googleMap = () =>{
+  const defaultProps = {
     center: {
       lat: 37.7749,
       lng: -122.4194
     },
     zoom: 11
-  };
+  }
 
-  render() {
-    const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
-      <div className="autocomplete-root">
-        <input {...getInputProps()} />
-        <div className="autocomplete-dropdown-container">
-          {<div>Loading...</div>}
-          {suggestions.map(suggestion => (
-            <div {...getSuggestionItemProps(suggestion)}>
-              <span>{suggestion.description}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+  
      
-    
-    const Marker = props => {
-      return <div style={{ height: '50px', width: "50px",backgroundColor:"red"}}></div>
+    const Marker = (defaultProps) => {
+      return <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px"}} alt="marker"/>
     }
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '500px', width: '90%',paddingLeft:"10%",marginBottom:"50px",marginTop:"30px"}}>
         <GoogleMapReact
           bootstrapURLKeys={{ key:"AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
         >
           <Marker
             lat={37.6879}
@@ -45,8 +30,8 @@ class googleMap extends Component {
           />
         </GoogleMapReact>
       </div>
-    );
+    )
   }
-}
+
 
 export default googleMap;
