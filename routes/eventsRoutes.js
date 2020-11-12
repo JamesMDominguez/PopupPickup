@@ -15,12 +15,12 @@ module.exports = (app) => {
   //create new event
   app.post("/api/events/:eventId", async (req, res) => {
     const { eventId } = req.params;
-    const {eventName,longitude, latitude} = req.body;
+    const {eventName,city,coordinates } = req.body;
     console.log(req.body)
     const newEvent = await Events.create({
       eventName,
-      longitude,
-      latitude
+      city,
+      coordinates
     });
 
     const allEvents = await Events.find();

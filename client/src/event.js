@@ -2,21 +2,38 @@ import React, { useEffect, useState } from "react"
 import EventInput from "./eventInput"
 import './App.css';
 import axios from "axios";
-
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng,
+  } from 'react-places-autocomplete';
+  
 const defaultValues = {
     eventName: "",
-    longitude:"",
-    latitude:""
+    city:"",
+    coordinates:""
 }
 
 const Event = () => {
     const [events, setEvents] = useState([])
     const [inputs, setInputs] = useState(defaultValues)
+    const [address, setAdress] = useState('')
 
     const getEvents = async () => {
         const res = await axios.get("/api/events/jsm")
         setEvents(res.data)
     }
+    const  handleChange = address => {
+        setAdress(address);
+      }
+    const  handleSelect = address => {
+        console.log(address);        
+        setInputs({ ...inputs, city:address});
+
+        geocodeByAddress(address)
+        .then(results => getLatLng(results[0]))
+        .then(latLng => console.log(latLng))
+        .catch(error => console.error('Error', error));
+      }
 
     const handleSubmit = async (event) => {
         event.stopPropagation()
@@ -36,9 +53,9 @@ const Event = () => {
             <div className="container">
                 {events.map(p => (
                     <EventInput
+                    key={p.eventName}
                     eventName={p.eventName}
-                    longitude={p.longitude}
-                    latitude={p.latitude}
+                    city={p.city}
                     />
                 ))}
             </div>
@@ -58,28 +75,47 @@ const Event = () => {
                         style={{ borderRadius: "25px" }}
                     />
 
-                    <br />
+                     <br />
 
-                    <input
-                        type="text"
-                        placeholder="longitude"
-                        value={inputs.longitude}
-                        onChange={e => setInputs({ ...inputs, longitude: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
-
-                    <br />
-
-                    <input
-                        type="text"
-                        placeholder="latitude"
-                        value={inputs.latitude}
-                        onChange={e => setInputs({ ...inputs, latitude: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
-
+                     <PlacesAutocomplete
+                        value={address}
+                        onChange={handleChange}
+                        onSelect={handleSelect}
+                     >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input id="inputval" style={{width:"100%" , borderRadius: "25px" }}
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: "w3-input",
+              })}
+            />
+            <div className="autocomplete-dropdown-container" style={{width:"100%"}}>
+              {loading && <div>Loading...</div>}
+              {suggestions.map(suggestion => {
+                const className = suggestion.active
+                  ? 'suggestion-item--active'
+                  : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: 'rgba(0, 0, 0, 0.5)', cursor: 'pointer' }
+                  : { backgroundColor: '#008496', cursor: 'pointer' };
+               
+                return (
+                  <div 
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span style={{backgroundColor: 'rgba(0, 0, 0, 0.3)'}}>{suggestion.description }</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </PlacesAutocomplete>
                     <br />
 
 
@@ -89,8 +125,10 @@ const Event = () => {
                         className="w3-theme-d1 w3-btn"
                         style={{ borderRadius: "25px", width: "100%" }}
                     />
+
                 </form>
             </div>
+
 
         </div>
     )

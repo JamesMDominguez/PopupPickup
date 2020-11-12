@@ -14,7 +14,7 @@ const GoogleLogoutApp = () => {
           <button
             onClick={renderProps.onClick}
             className="w3-theme-d1 w3-btn"
-            style={{ borderRadius: "25px", padding: "10px", margin: "10px" }}
+            style={{ borderRadius: "25px", padding: "10px",width:'100%' }}
             disabled={renderProps.disabled}>Logout</button>
         )}
         buttonText="Logout"

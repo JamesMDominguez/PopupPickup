@@ -5,11 +5,11 @@ const eventSchema = new Schema({
     eventName: {
         type: String
     },
-    longitude: {
-        type: Number
+    city: {
+        type: String
     },
-    latitude: {
-        type: Number
+    coordinates: {
+        type: String
     },
     date_created: {
         type: Date,

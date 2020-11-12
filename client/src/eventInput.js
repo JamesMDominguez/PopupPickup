@@ -1,12 +1,11 @@
 import React from "react"
 import './App.css';
 
-const eventInput = ({ longitude, latitude,eventName }) =>
+const eventInput = ({ eventName,city }) =>
     (
             <div className="item">
                 <p>Event Name:{eventName}</p>
-                <p>longitude:{longitude}</p>
-                <p>latitude:{latitude}</p>            
+                <p>City Name:{city}</p>           
             </div>
 
     )

@@ -1,4 +1,4 @@
-import React, { createElement } from "react"
+import React from "react"
 import { GoogleLogin } from 'react-google-login';
 
 
@@ -6,6 +6,7 @@ const GoogleLoginApp = ({isLogedIn}) => {
 
   const responseGoogle = (response) => {
     let proName = response.profileObj.name
+    console.log(response);
     let x = document.getElementById("inText");
     x.innerHTML = proName;                  // Insert text
     document.getElementById("inText").appendChild(x);

@@ -1,67 +1,57 @@
-import React from 'react';
-import Host from './host';
+import React, {useState} from 'react';
+import LoginPage from './LoginPage';
 import Home from './Home';
-import Test from './test';
+import ProductsPage from './ProductsPage';
 import Event from './event';
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
 import './css/Nav.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
-class NavBar extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-         NavDisplay:"none",
-         width:"0%"
-}
+const NavBar = () =>{
 
-    this.w3_open = this.w3_open.bind(this)
-    this.w3_close = this.w3_close.bind(this)
-}
+        const [NavDisplay, setNavDisplay] = useState("none")
+        const [width, setWidth] = useState("0%")
 
-w3_open() {
-    this.setState({NavDisplay:"block"})
-    this.setState({width:"25%"})
+
+const w3_open = () => {
+  setNavDisplay("block")
+  setWidth("25%")
 }
   
-   w3_close() {
-    this.setState({NavDisplay:"none"})
-    this.setState({width:"0%"})
-
+  const w3_close = () => {
+    setNavDisplay("none")
+    setWidth("0%")
   }
 
-    render() {
+
       
       const style={
-        display:this.state.NavDisplay,
-        width:this.state.width
+        display:NavDisplay,
+        width:width
      }
         return (       
 <div>
  <Router>
   <div className="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left w3-theme-d2" style={style} >
-   <button onClick={this.w3_close} className="3-bar-item w3-button w3-large w3-hover-opacity">Close</button>
+   <button onClick={w3_close} className="3-bar-item w3-button w3-large w3-hover-opacity">Close</button>
      <Link to="/" className="w3-bar-item w3-button w3-hover-opacity">Home</Link>
-     <Link to="/Host/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>
-     <Link to="/Test/" className="w3-bar-item w3-button w3-hover-opacity">Inventory</Link>
+     <Link to="/LoginPage/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>
+     <Link to="/ProductsPage/" className="w3-bar-item w3-button w3-hover-opacity">Inventory</Link>
      <Link to="/Event/" className="w3-bar-item w3-button w3-hover-opacity">Events</Link>
-
    </div>
 
   <div className="NavBar">
-    <button className="NavBarIcon" onClick={this.w3_open}>☰</button>
+    <button className="NavBarIcon" onClick={w3_open}>☰</button>
   </div>
   <Route exact path="/" component={Home} />
-  <Route path="/Host" component={Host} />
-  <Route path="/Test" component={Test} />
+  <Route path="/LoginPage" component={LoginPage} />
+  <Route path="/ProductsPage" component={ProductsPage} />
   <Route path="/Event" component={Event} />
 
 </Router>
 </div>
         )
-    }
 }
 export default NavBar;
 

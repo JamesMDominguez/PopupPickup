@@ -1,25 +1,22 @@
-import React from "react"
+import React, {useState} from "react"
 import './App.css';
 import GoogleLogin from "./GoogleLoginApp";
 import GoogleLogout from "./GoogleLogoutApp";
-class host extends React.Component {
-  constructor() {
-    super()
-    this.state = { loginDisplay:"none"}
-    this.displayLoginChange = this.displayLoginChange.bind(this);
-    this.displayLogoutChange = this.displayLogoutChange.bind(this);
 
+  const LoginPage = () => {
 
-  }
- displayLoginChange(){
-  this.setState({loginDisplay:"block"});
+    const [loginDisplay, setloginDisplay] = useState('none')
+    const [logoutDisplay, setlogoutDisplay] = useState('block')
+
+const displayLoginChange = () => {
+  setloginDisplay("block")
+  setlogoutDisplay("none")
  }
- displayLogoutChange(){
-  this.setState({loginDisplay:"none"});
+ const displayLogoutChange = () => {
+  setloginDisplay("none")
+  setlogoutDisplay("block")
   document.getElementById("inText").innerHTML = "Click here to Login"
  }
-
-  render() {
 
     return (
       <div>
@@ -29,19 +26,20 @@ class host extends React.Component {
           style={{ padding: "25px", borderRadius: "25px" }}
         >
           <h4 id="inText">Click here to Login</h4>
-          <div onClick={this.displayLoginChange}>
+          <div onClick={displayLoginChange}
+              style={{ display:logoutDisplay}}
+          >
           <GoogleLogin/>
           </div>
           <div 
-          style={{ display:this.state.loginDisplay}}
-          onClick={this.displayLogoutChange}
+          style={{ display:loginDisplay}}
+          onClick={displayLogoutChange}
           >
           <GoogleLogout/>
           </div>
         </div>
       </div>
     )
-  }
 }
 
-export default host;
+export default LoginPage;

@@ -10,7 +10,7 @@ const defaultValues = {
     imgURL:""
 }
 
-const Test = () => {
+const ProductsPage = () => {
     const [products, setProducts] = useState([])
     const [inputs, setInputs] = useState(defaultValues)
 
@@ -85,13 +85,6 @@ const Test = () => {
                     <br />
 
                     <input
-                        type="file"
-                        id="upload-button"
-                        onChange={e => setInputs({ ...inputs, imgURL: URL.createObjectURL(e.target.files[0]) })}
-                        style={{ paddingBottom: "5%"}}
-                    />
-
-                    <input
                         type="submit"
                         value="Submit"
                         className="w3-theme-d1 w3-btn"
@@ -105,4 +98,4 @@ const Test = () => {
 }
 
 
-export default Test;
+export default ProductsPage;
