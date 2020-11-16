@@ -6,8 +6,7 @@ import axios from "axios";
 const defaultValues = {
     name: "",
     price: "",
-    quantity: "",
-    imgURL:""
+    quantity: ""
 }
 
 const ProductsPage = () => {
@@ -37,7 +36,6 @@ const ProductsPage = () => {
             <div className="container">
                 {products.map(p => (
                     <Item
-                        imgURL={p.imgURL}
                         productName={p.name}
                         price={p.price}
                         quantity={p.quantity}

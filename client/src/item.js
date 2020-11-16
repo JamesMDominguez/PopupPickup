@@ -1,7 +1,7 @@
 import React from "react"
 import './App.css';
 
-const Item = ({ productName, price, quantity,imgURL }) =>
+const Item = ({ productName, price, quantity }) =>
     (
             <div className="item">
                 <p>{productName}</p>

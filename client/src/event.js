@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react"
 import EventInput from "./eventInput"
 import './App.css';
 import axios from "axios";
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-  } from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress,getLatLng,} from 'react-places-autocomplete';
   
 const defaultValues = {
     eventName: "",
     city:"",
-    coordinates:""
+    coordinates:{}
 }
 
 const Event = () => {
     const [events, setEvents] = useState([])
     const [inputs, setInputs] = useState(defaultValues)
-    const [address, setAdress] = useState('')
+    const [address, setAdress] = useState()
+    const [thisAddy, setAddy] = useState()
+
 
     const getEvents = async () => {
         const res = await axios.get("/api/events/jsm")
@@ -27,12 +26,12 @@ const Event = () => {
       }
     const  handleSelect = address => {
         console.log(address);        
-        setInputs({ ...inputs, city:address});
-
         geocodeByAddress(address)
         .then(results => getLatLng(results[0]))
-        .then(latLng => console.log(latLng))
+        .then(latLng => setAddy(latLng))
         .catch(error => console.error('Error', error));
+        setInputs({ ...inputs, city:address,coordinates:thisAddy});
+        console.log(thisAddy)
       }
 
     const handleSubmit = async (event) => {
