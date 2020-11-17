@@ -40,7 +40,7 @@ const Event = () => {
     event.stopPropagation()
     event.preventDefault()
 
-    const res = await axios.post("https://popup-pickup.herokuapp.com/api/events/jsm", inputs)
+    const res = await axios.post("/https://popup-pickup.herokuapp.com/api/events/jsm", inputs)
     setEvents(res.data)
     setInputs(defaultValues)
   }
