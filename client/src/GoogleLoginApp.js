@@ -21,13 +21,11 @@ const GoogleLoginApp = ({ isLogedIn }) => {
   }
 
   const handleSubmit = async (event) => {
-
     event.stopPropagation()
     event.preventDefault()
     const res = await axios.post("/api/users/jsm", inputs)
     setUsers(res.data)
     setInputs(defaultValues)
-
   }
 
   useEffect(() => { getUsers() }, [])

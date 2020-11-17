@@ -8,8 +8,11 @@ const eventSchema = new Schema({
     city: {
         type: String
     },
-    coordinates: {
-        type: Object
+    longitude: {
+        type: String
+    },
+    latitude: {
+        type: String
     },
     date_created: {
         type: Date,
