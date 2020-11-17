@@ -1,20 +1,22 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const eventSchema = new Schema({
-    eventName: {
+const userSchema = new Schema({
+    userName: {
         type: String
     },
-    city: {
+    email: {
         type: String
     },
-    coordinates: {
-        type: Object
+    userType: {
+        type: String
+    },
+    imgUrl: {
+        type: String
     },
     date_created: {
         type: Date,
         default: Date.now,
-    },
+    }
 });
-
-const Event = mongoose.model("events", eventSchema);
+const User = mongoose.model("users", userSchema);

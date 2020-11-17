@@ -16,6 +16,7 @@ require("./models/event");
 require("./models/product");
 require("./models/vendor");
 require("./models/customer");
+require("./models/user");
 
 // Middleware start
 const app = express();
@@ -28,6 +29,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // Route Files
 require("./routes/eventsRoutes")(app);
 require("./routes/vendorRoutes")(app);
+require("./routes/userRoutes")(app);
+
 
 if (process.env.NODE_ENV === "production") {
   // express will serve production assets (main.js/css)
