@@ -13,7 +13,7 @@ module.exports = (app) => {
   });
 
   //create new event
-  app.post("/api/events/:eventId", async (req, res) => {
+  app.post("/https://popup-pickup.herokuapp.com/api/events/:eventId", async (req, res) => {
     const { eventId } = req.params;
     const {eventName,city,longitude,latitude } = req.body;
     console.log(req.body)

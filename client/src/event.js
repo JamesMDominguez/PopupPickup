@@ -19,7 +19,7 @@ const Event = () => {
 
 
   const getEvents = async () => {
-    const res = await axios.get("/api/events/jsm")
+    const res = await axios.get("/https://popup-pickup.herokuapp.com/api/events/jsm")
     setEvents(res.data)
   }
   const handleChange = address => {
