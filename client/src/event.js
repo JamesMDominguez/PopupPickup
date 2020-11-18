@@ -43,6 +43,7 @@ const Event = () => {
     const res = await axios.post("/api/events/jsm", inputs)
     setEvents(res.data)
     setInputs(defaultValues)
+    setAdress('');
   }
 
   useEffect(() => { getEvents() }, [])

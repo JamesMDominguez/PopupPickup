@@ -5,13 +5,7 @@ const userSchema = new Schema({
     userName: {
         type: String
     },
-    email: {
-        type: String
-    },
     userType: {
-        type: String
-    },
-    imgUrl: {
         type: String
     },
     date_created: {

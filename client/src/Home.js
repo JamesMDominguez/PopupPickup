@@ -1,7 +1,7 @@
 import React from "react"
 import './App.css';
 import './css/homePage.css';
-import GoogleMap from "./googleMap";
+import GoogleMap from "./GoogleMap";
 
 
 const Home = () => {
