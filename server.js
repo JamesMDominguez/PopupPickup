@@ -4,11 +4,11 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
+require('dotenv').config()
 
 // DB config
-//const mongoURI = process.env.MONGODB_URI || "mongodb://localhost/PopupPickup";
-const mongoURI = 'mongodb+srv://JamesDominguez:dominguez@cluster0.y2ep1.mongodb.net/app_users?retryWrites=true&w=majority';
-mongoose.connect(mongoURI, { useUnifiedTopology: true, useNewUrlParser: true });
+const { MONGO_URI } = process.env;
+mongoose.connect(MONGO_URI, { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 // Models
