@@ -14,6 +14,8 @@ const ProductsPage = () => {
     const [inputs, setInputs] = useState(defaultValues)
 
     const getProducts = async () => {
+        await axios.get("/api/auth/google")
+
         const res = await axios.get("/api/vendors/jsm")
         setProducts(res.data)
     }

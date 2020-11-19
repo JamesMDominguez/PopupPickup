@@ -82,6 +82,7 @@ useEffect(() => { getUsers() }, [])
                     />
               </form>
         </div>
+        <GoogleLoginApp/>
       </div>
     )
 }

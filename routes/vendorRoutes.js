@@ -6,7 +6,7 @@ module.exports = (app) => {
   //geit dat product 4 a vendor
   app.get("/api/vendors/:vendorId", async (req, res) => {
     const { vendorId } = req.params;
- 
+    console.log("sup dude")
     const allProducts = await Products.find();
     res.send(allProducts);
   });
