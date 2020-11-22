@@ -44,8 +44,8 @@ useEffect(() => { getUsers() }, [])
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Create Account</h1>
 
         <div
-          className="w3-theme-d3 w3-container w3-display-middle"
-          style={{ padding: "25px", borderRadius: "25px" }}
+          className="w3-theme-d3 w3-container"
+          style={{ padding: "25px", borderRadius: "25px", width:"80%", marginLeft:"10%"}}
         >
           <h4>Click here to Login</h4>
 

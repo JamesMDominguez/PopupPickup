@@ -1,21 +1,25 @@
   
   body {
-    background-color:rgb(106, 178, 161);
+    background-color:rgb(255, 255, 255);
 }
 
 h1{
-  color: #ffffff;
+  color: #1859a3;
 }
 
 .NavBar{
-  background-color:rgb(36 121 125);
-  height:50px;
+  background-color:rgb(255, 255, 255);
+  display: inline;
 }
 .NavBarIcon{
   color: rgb(255, 255, 255);
-  background-color:rgb(36 121 125);
-  height:50px;
-  width: 50px;
+  background-color:rgb(103, 173, 253);
+  height:40px;
+  width: 40px;
+  margin-left: 10px;
+  border-radius: 10%;
+  border-color: rgb(103, 173, 253);
+
 }
 
 
@@ -27,10 +31,9 @@ h1{
   padding: 5%;
 }
 .item {
-  background: #ffffff;
-  border: 3px solid #26663e;
-  color: #313131;
-  border-radius: 10%;
+  background: rgb(103, 173, 253);
+  color: #ccf5ff;
+  border-radius: 20px;
   padding: 1rem;
   font-size: 1rem;
   text-align: center;

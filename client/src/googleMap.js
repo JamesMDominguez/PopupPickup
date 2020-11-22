@@ -25,10 +25,9 @@ import './App.css';
     const Marker = (defaultProps) => {
       return <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px"}} alt="marker"/>
     }
-    
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: '500px', width: '90%',paddingLeft:"10%",marginBottom:"50px",marginTop:"30px"}}>
+      <div style={{ height: '500px', width: '100%',marginBottom:"50px"}}>
         <GoogleMapReact
           bootstrapURLKeys={{ key:"AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
           defaultCenter={defaultProps.center}

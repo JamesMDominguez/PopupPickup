@@ -50,14 +50,14 @@ const Event = () => {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Vendor Inventory</h1>
+      <img style={{width:"100%"}} src="https://i.postimg.cc/K8z4Jhnj/IMG-0737.jpg" alt="Untitled-Artwork" border="0"/>
+
 
       <div className="container">
         {events.map(p => (
           <EventInput
             key={p.eventName}
             eventName={p.eventName}
-            city={p.city}
           />
         ))}
       </div>

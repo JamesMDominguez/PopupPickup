@@ -31,7 +31,10 @@ const ProductsPage = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Vendor Inventory</h1>
+            
+            <img style={{width:"100%"}} src="https://i.postimg.cc/kgx8Wcsg/IMG-0735.jpg" alt="Untitled-Artwork" border="0"/>
+
+            <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
             <div className="container">
                 {products.map(p => (
