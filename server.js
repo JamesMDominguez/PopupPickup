@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 require("./routes/eventsRoutes")(app);
 require("./routes/vendorRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/productsRoutes")(app);
+
 
 
 if (process.env.NODE_ENV === "production") {

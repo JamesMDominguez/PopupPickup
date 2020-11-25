@@ -3,7 +3,6 @@ import './App.css';
 import './css/homePage.css';
 import GoogleMap from "./googleMap";
 import axios from "axios";
-import EventInput from "./eventInput"
 
 
 
@@ -15,6 +14,14 @@ const Home = () => {
     setEvents(res.data)
     console.log(events)
   }
+
+  const EventInput = ({ eventName,city }) =>
+  (
+          <div className="item">
+              <p>{eventName}</p>
+          </div>
+
+  )
 
   useEffect(() => { getEvents() }, [])
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import EventInput from "./eventInput"
 import './App.css';
 import axios from "axios";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
@@ -16,7 +15,13 @@ const Event = () => {
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
 
+  const EventInput = ({ eventName,city }) =>
+  (
+          <div className="item">
+              <p>{eventName}</p>
+          </div>
 
+  )
 
   const getEvents = async () => {
     const res = await axios.get("/api/events/jsm")

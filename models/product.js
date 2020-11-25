@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const vendorSchema = new Schema({
+    vendor: {
+        type: String
+    },
     name: {
         type: String
     },
