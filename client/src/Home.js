@@ -10,7 +10,7 @@ const Home = () => {
   const [events, setEvents] = useState([])
 
   const getEvents = async () => {
-    const res = await axios.get("/api/events/jsm")
+    const res = await axios.get("/api/events")
     setEvents(res.data)
     console.log(events)
   }

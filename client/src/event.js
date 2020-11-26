@@ -24,7 +24,7 @@ const Event = () => {
   )
 
   const getEvents = async () => {
-    const res = await axios.get("/api/events/jsm")
+    const res = await axios.get("/api/events/")
     setEvents(res.data)
   }
   const handleChange = address => {
@@ -45,7 +45,7 @@ const Event = () => {
     event.stopPropagation()
     event.preventDefault()
 
-    const res = await axios.post("/api/events/jsm", inputs)
+    const res = await axios.post("/api/events/", inputs)
     setEvents(res.data)
     setInputs(defaultValues)
     setAdress('');

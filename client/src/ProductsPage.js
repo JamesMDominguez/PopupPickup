@@ -16,6 +16,7 @@ const defaultValuesVendor = {
 const ProductsPage = () => {
 
     const [products, setProducts] = useState([])
+    const [selectedProduct, setSelectedProduct] = useState(null)
     const [inputs, setInputs] = useState(defaultValues)
 
     const [vendors, setVendors] = useState([])
@@ -23,39 +24,58 @@ const ProductsPage = () => {
 
     const [vendorChosen, setVendorChosen] = useState()
 
-    const Item = ({ productName, price, quantity, vendors }) =>
+    const Item = ({ product, ...props }) =>
         (
-            <div className="item">
-                <p>{vendors}</p>
-                <p>{productName}</p>
-                <p>{price}</p>
-                <p>{quantity}</p>
+            <div className="item" {...props}>
+                <div onClick={(event) => {
+                    event.stopPropagation()
+                    const shouldDelete = window.confirm('delete product')
+                    if (shouldDelete) {
+                        handleDelete(product._id, event)
+                    }
+                }} style={{ cursor: 'pointer' }}>
+                    <h1>x</h1>
+                </div>
+                <p>{product.name}</p>
+                <p>{product.price}</p>
             </div>
         )
 
-    const Item2 = ({ name }) =>
+    const Item2 = ({ name, ...props }) =>
         (
-            <div className="item" onClick={() => setVendorChosen(name)}>
+            <div className="item" {...props} onClick={() => setVendorChosen(name)}>
                 <p>{name}</p>
             </div>
         )
 
     const getProducts = async () => {
-        const res = await axios.get("/api/products/jsm")
+        const res = await axios.get("/api/products")
+        setProducts(res.data)
+    }
+
+    const handleDelete = async (productId, event) => {
+        const res = await axios.delete(`/api/products/${productId}`)
         setProducts(res.data)
     }
 
     const handleSubmit = async (event) => {
         event.stopPropagation()
         event.preventDefault()
+        if (selectedProduct) {
+            const res = await axios.put(`/api/products/${selectedProduct}`, inputs)
+            setProducts(res.data)
+        }
+        else {
+            const res = await axios.post("/api/products", inputs)
+            setProducts(res.data)
 
-        const res = await axios.post("/api/products/jsm", inputs)
-        setProducts(res.data)
+        }
         setInputs(defaultValues)
+        setSelectedProduct(null)
     }
 
     const getVendors = async () => {
-        const res = await axios.get("/api/vendors/jsm")
+        const res = await axios.get("/api/vendors")
         setVendors(res.data)
     }
 
@@ -63,7 +83,7 @@ const ProductsPage = () => {
         event.stopPropagation()
         event.preventDefault()
 
-        const res = await axios.post("/api/vendors/jsm", vinputs)
+        const res = await axios.post("/api/vendors", vinputs)
         setVendors(res.data)
         setVendorInputs(defaultValuesVendor)
     }
@@ -82,6 +102,7 @@ const ProductsPage = () => {
             <div className="container">
                 {vendors.map(p => (
                     <Item2
+                        style={{ backgroundColor: "#9A2A32" }}
                         name={p.name}
                     />
                 ))
@@ -92,9 +113,12 @@ const ProductsPage = () => {
                 {
                     products.map(p => {
                         if (p.vendor == vendorChosen) {
-                            return <Item 
-                                productName={p.name}
-                                price={p.price}
+                            return <Item
+                                product={p}
+                                onClick={() => {
+                                    setSelectedProduct(p._id)
+                                    setInputs(p)
+                                }}
                             />
                         }
                     })
@@ -103,10 +127,13 @@ const ProductsPage = () => {
 
 
             <div style={{ paddingLeft: "30%" }}>
+
                 <form //login
                     onSubmit={handleSubmit}
                     className="w3-theme-d3 w3-container"
                     style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
+
+                    <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
 
                     <input
                         type="text"

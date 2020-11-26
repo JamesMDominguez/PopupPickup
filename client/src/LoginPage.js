@@ -23,7 +23,7 @@ const defaultValues = {
   )
 
   const getUsers = async () => {
-    const res = await axios.get("/api/users/jsm")
+    const res = await axios.get("/api/users")
     setUsers(res.data)
 }
 
@@ -31,7 +31,7 @@ const handleSubmit = async (event) => {
     event.stopPropagation()
     event.preventDefault()
 
-    const res = await axios.post("/api/users/jsm", inputs)
+    const res = await axios.post("/api/users", inputs)
     setUsers(res.data)
     setInputs(defaultValues)
 
