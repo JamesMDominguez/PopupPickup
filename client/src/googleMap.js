@@ -8,7 +8,7 @@ import './App.css';
   const [events, setEvents] = useState([])
 
   const getEvents = async () => {
-    const res = await axios.get("/api/events/")
+    const res = await axios.get("/api/events")
     setEvents(res.data)
     console.log(events)
   }

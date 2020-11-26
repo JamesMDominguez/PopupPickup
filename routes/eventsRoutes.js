@@ -5,8 +5,7 @@ const Events = mongoose.model("events");
 module.exports = (app) => {
   
   //generic get all events route (caution - big)
-  app.get("/api/events/:eventId", async (req, res) => {
-    const {eventId} = req.params;
+  app.get("/api/events/", async (req, res) => {
  
     const allEvents = await Events.find();
     res.send(allEvents);
@@ -14,9 +13,7 @@ module.exports = (app) => {
 
   //create new event
   app.post("/api/events/:eventId", async (req, res) => {
-    const { eventId } = req.params;
     const {eventName,city,longitude,latitude } = req.body;
-    console.log(req.body)
     const newEvent = await Events.create({
       eventName,
       city,
