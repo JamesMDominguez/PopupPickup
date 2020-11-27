@@ -17,18 +17,29 @@ const Event = () => {
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
 
-  const EventInput = ({ eventName,city }) =>
-  (
-          <div className="item">
-              <p>{eventName}</p>
-          </div>
 
-  )
+  const Item = ({ event, ...props }) =>
+    (
+      <div className="item" {...props}>
+        <div onClick={(myEvent) => {
+          myEvent.stopPropagation()
+          const shouldDelete = window.confirm('delete event')
+          if (shouldDelete) {
+            handleDelete(event._id, myEvent)
+          }
+        }} style={{ cursor: 'pointer' }}>
+          <h1>x</h1>
+        </div>
+        <p>{event.eventName}</p>
+        <p>{event.city}</p>
+      </div>
+    )
 
   const getEvents = async () => {
-    const res = await axios.get("/api/events/")
+    const res = await axios.get("/api/events")
     setEvents(res.data)
   }
+
   const handleChange = address => {
     setAdress(address)
   }
@@ -37,40 +48,51 @@ const Event = () => {
     console.log(address);
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then((latLng) => setInputs({ ...inputs, city: address ,latitude: latLng.lng, longitude: latLng.lat }))
-      .then(console.log(inputs.latitude, inputs.longitude))
+      .then((latLng) => setInputs({ ...inputs, city: address, latitude: latLng.lng, longitude: latLng.lat }))
       .catch(error => console.error('Error', error));
   }
 
   const handleDelete = async (eventId, event) => {
     const res = await axios.delete(`/api/events/${eventId}`)
     setEvents(res.data)
-}
+  }
 
   const handleSubmit = async (event) => {
     event.stopPropagation()
     event.preventDefault()
 
-    const res = await axios.post("/api/events/", inputs)
-    setEvents(res.data)
+    if (selectedEvent) {
+      const res = await axios.put(`/api/events/${selectedEvent}`, inputs)
+      setEvents(res.data)
+    }
+    else {
+      const res = await axios.post("/api/events", inputs)
+      setEvents(res.data)
+
+    }
     setInputs(defaultValues)
-    setAdress('');
+    setSelectedEvent(null)
   }
 
   useEffect(() => { getEvents() }, [])
 
   return (
     <div>
-      <img style={{width:"100%"}} src="https://i.postimg.cc/K8z4Jhnj/IMG-0737.jpg" alt="Untitled-Artwork" border="0"/>
+      <img style={{ width: "100%" }} src="https://i.postimg.cc/K8z4Jhnj/IMG-0737.jpg" alt="Untitled-Artwork" border="0" />
 
 
       <div className="container">
-        {events.map(p => (
-          <EventInput
-            key={p.eventName}
-            eventName={p.eventName}
-          />
-        ))}
+        {
+          events.map(p => (
+               <Item
+                event={p}
+                onClick={() => {
+                  setSelectedEvent(p._id)
+                  setInputs(p)
+                }}
+              />
+          ))
+        }
       </div>
       <div style={{ paddingLeft: "30%" }}>
         <form //login
@@ -78,7 +100,7 @@ const Event = () => {
           className="w3-theme-d3 w3-container"
           style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
-        <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Event" : "New Event"}</h2>
+          <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Event" : "New Event"}</h2>
 
 
           <input
@@ -99,7 +121,7 @@ const Event = () => {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>
-                <input id="inputval" style={{ width: "100%", borderRadius: "25px" }}
+                <input id="inputval" style={{ width: "100%", borderRadius: "25px" }} 
                   {...getInputProps({
                     placeholder: 'Search Places ...',
                     className: "w3-input",

@@ -22,8 +22,13 @@ import './App.css';
 
   useEffect(() => { getEvents() }, [])
 
-    const Marker = (defaultProps) => {
-      return <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px"}} alt="marker"/>
+    const Marker = ({thisEventName}) => {
+      return(
+      <div className="container2">
+      <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px"}} alt="marker"/>
+      <div className="overlay">{thisEventName}</div>
+      </div>
+      )
     }
     return (
       // Important! Always set the container height explicitly
@@ -35,6 +40,7 @@ import './App.css';
         >
               {events.map(p => (
               <Marker
+                thisEventName={p.eventName}
                 lat={p.longitude}
                 lng={p.latitude}
                 />
