@@ -46,10 +46,10 @@ const handleSubmit2 = async (event) => {
       if(users.userName=currentUser){
         setIsUser(true)
       }
-      if(isUser==true){
+      if(isUser===true){
         console.log("Welcome Back")
       }
-      else if(isUser==false){
+      else if(isUser===false){
       console.log("Create an Account")
       }
   }

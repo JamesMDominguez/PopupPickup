@@ -12,6 +12,8 @@ const defaultValues = {
 
 const Event = () => {
   const [events, setEvents] = useState([])
+  const [selectedEvent, setSelectedEvent] = useState(null)
+
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
 
@@ -38,8 +40,12 @@ const Event = () => {
       .then((latLng) => setInputs({ ...inputs, city: address ,latitude: latLng.lng, longitude: latLng.lat }))
       .then(console.log(inputs.latitude, inputs.longitude))
       .catch(error => console.error('Error', error));
-
   }
+
+  const handleDelete = async (eventId, event) => {
+    const res = await axios.delete(`/api/events/${eventId}`)
+    setEvents(res.data)
+}
 
   const handleSubmit = async (event) => {
     event.stopPropagation()
@@ -71,6 +77,8 @@ const Event = () => {
           onSubmit={handleSubmit}
           className="w3-theme-d3 w3-container"
           style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
+
+        <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Event" : "New Event"}</h2>
 
 
           <input
