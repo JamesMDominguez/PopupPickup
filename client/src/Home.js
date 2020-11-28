@@ -11,7 +11,8 @@ const Home = () => {
   const [events, setEvents] = useState([])
   const [products, setProducts] = useState([])
   const [selectedVendor, setSelectedVendor] = useState([])
-  const [currentVendor, setCurrentVendor]= useState('')
+  const [currentVendor, setCurrentVendor] = useState('')
+
 
   const getEvents = async () => {
     const res = await axios.get("/api/events")
@@ -23,32 +24,37 @@ const Home = () => {
     setProducts(res.data)
   }
 
-  const EventInput = ({ eventName, vendor }) =>
+  const EventInput = ({ eventName,price ,vendor }) =>
     (
       <div className="item" onClick={() => {
-        setSelectedVendor(vendor) 
+        setSelectedVendor(vendor)
+        setCurrentVendor(vendor)
       }}
       >
         <p>{eventName}</p>
+        <p>{price}</p>
 
       </div>
     )
 
   const EventInput2 = ({ vendor }) =>
     (
-      <div className="item" onClick={()=>{
-      setCurrentVendor(vendor)
-      console.log(currentVendor)}
+      <div className="item" onClick={() => {
+        setCurrentVendor(vendor)
+        console.log(currentVendor)
+      }
       }>
         <p>{vendor}</p>
       </div>
     )
-    const Item = ({ name}) =>
-        (
-            <div className="item">
-              {}
-            </div>
-        )
+
+  const EventInput3 = ({ name }) =>
+    (
+      <div className="item">
+        <p>{name}</p>
+      </div>
+    )
+
 
   useEffect(() => { getEvents() }, [])
   useEffect(() => { getProducts() }, [])
@@ -64,6 +70,7 @@ const Home = () => {
           <EventInput
             key={p.eventName}
             eventName={p.eventName}
+
             vendor={p.vendor}
           />
         ))}
@@ -83,16 +90,16 @@ const Home = () => {
       <h2 style={{ marginLeft: "5%" }}>Vendor Products</h2>
 
       <div className="container">
-          {products.map(p=>{
-            if(currentVendor==p.vendor){
-              return(
-                <div className="item">
-            <p>{p.name}</p>
-            </div>
-              )
-            }
-          })}
-      </div> 
+        {products.map(p => {
+          if (currentVendor == p.vendor) {
+            return (
+              <div className="item">
+                <p>{p.name}</p>
+              </div>
+            )
+          }
+        })}
+      </div>
 
     </div>
   )
