@@ -24,7 +24,7 @@ const Home = () => {
     setProducts(res.data)
   }
 
-  const EventInput = ({ eventName,price ,vendor }) =>
+  const EventInput = ({ eventName ,vendor }) =>
     (
       <div className="item" onClick={() => {
         setSelectedVendor(vendor)
@@ -32,7 +32,6 @@ const Home = () => {
       }}
       >
         <p>{eventName}</p>
-        <p>{price}</p>
 
       </div>
     )
@@ -70,7 +69,6 @@ const Home = () => {
           <EventInput
             key={p.eventName}
             eventName={p.eventName}
-
             vendor={p.vendor}
           />
         ))}
@@ -95,6 +93,7 @@ const Home = () => {
             return (
               <div className="item">
                 <p>{p.name}</p>
+                <p>${p.price}</p>
               </div>
             )
           }
