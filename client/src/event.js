@@ -180,10 +180,8 @@ const Event = () => {
 
 
           <div onClick={(p)=>{ 
-
           p.vendor.push(thisVendor)
           setThisvendor('')
-
         }} style={{ backgroundColor: "#9A2A32",height:"20px",marginBottom:"10px" , textAlign: "center", borderRadius: "25px" }}>+</div>
 
         <div>
