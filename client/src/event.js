@@ -8,7 +8,7 @@ const defaultValues = {
   city: "",
   longitude: "",
   latitude: "",
-  vendor:""
+  vendor:[]
 }
 
 const Event = () => {
@@ -17,7 +17,6 @@ const Event = () => {
 
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
-  const [addVendor, setAddvendor] = useState([])
   const [thisVendor, setThisvendor] = useState([])
    
 
@@ -168,7 +167,7 @@ const Event = () => {
           </PlacesAutocomplete>
           <br />
 
-          <h2 style={{ textAlign: "center" }}>Add Vendors</h2>
+                <h2 style={{ textAlign: "center" }}>{selectedEvent?"Add Vendors":"Edit Vendors"}</h2>
 
           <input
             type="text"
@@ -181,15 +180,15 @@ const Event = () => {
 
 
           <div onClick={(p)=>{ 
-          addVendor.push(thisVendor) 
+
+          p.vendor.push(thisVendor)
           setThisvendor('')
-          console.log(addVendor)
-          setInputs({ ...inputs, vendor: addVendor})
+
         }} style={{ backgroundColor: "#9A2A32",height:"20px",marginBottom:"10px" , textAlign: "center", borderRadius: "25px" }}>+</div>
 
         <div>
           {      
-        addVendor.map( (p)=> 
+        inputs.vendor.map( (p)=> 
         <div style={{backgroundColor:"black",paddingLeft:"2%",borderRadius: "25px"}}>
         <div 
         style={{cursor: 'pointer', float: "left", paddingTop:"5px"}} 
@@ -197,7 +196,7 @@ const Event = () => {
           myEvent.stopPropagation()
           const shouldDelete = window.confirm('delete event')
           if (shouldDelete) {
-          addVendor.pop()
+            p.vendor.pop()
           }
         }}
         >x</div>
