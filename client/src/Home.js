@@ -12,7 +12,6 @@ const Home = () => {
   const getEvents = async () => {
     const res = await axios.get("/api/events")
     setEvents(res.data)
-    console.log(events)
   }
 
   const EventInput = ({ eventName,city }) =>

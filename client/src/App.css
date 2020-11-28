@@ -50,7 +50,7 @@ h1{
 
 .container2 {
   position: relative;
-  width: 50%;
+  width: 100%;
   max-width: 300px;
 }
 
@@ -60,7 +60,7 @@ h1{
   background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.5); /* Black see-through */
   color: #f1f1f1; 
-  width: 100px;
+  width: fit-content;
   transition: .5s ease;
   opacity:0;
   color: white;

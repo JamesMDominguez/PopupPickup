@@ -7,7 +7,8 @@ const defaultValues = {
   eventName: "",
   city: "",
   longitude: "",
-  latitude: ""
+  latitude: "",
+  vendor:""
 }
 
 const Event = () => {
@@ -16,6 +17,9 @@ const Event = () => {
 
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
+  const [addVendor, setAddvendor] = useState([])
+  const [thisVendor, setThisvendor] = useState([])
+   
 
 
   const Item = ({ event, ...props }) =>
@@ -27,18 +31,27 @@ const Event = () => {
           if (shouldDelete) {
             handleDelete(event._id, myEvent)
           }
-        }} style={{ cursor: 'pointer' }}>
-          <h1>x</h1>
+        }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
+          x
         </div>
+        
         <p>{event.eventName}</p>
         <p>{event.city}</p>
+        <h4>Vendors:</h4>
+        <div>{event.vendor.map(p=>
+            <p style={{display:"inline"}}>{p} </p>
+          )}</div>
       </div>
     )
+
+
 
   const getEvents = async () => {
     const res = await axios.get("/api/events")
     setEvents(res.data)
   }
+
+
 
   const handleChange = address => {
     setAdress(address)
@@ -84,13 +97,13 @@ const Event = () => {
       <div className="container">
         {
           events.map(p => (
-               <Item
-                event={p}
-                onClick={() => {
-                  setSelectedEvent(p._id)
-                  setInputs(p)
-                }}
-              />
+            <Item
+              event={p}
+              onClick={() => {
+                setSelectedEvent(p._id)
+                setInputs(p)
+              }}
+            />
           ))
         }
       </div>
@@ -121,7 +134,7 @@ const Event = () => {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>
-                <input id="inputval" style={{ width: "100%", borderRadius: "25px" }} 
+                <input id="inputval" style={{ width: "100%", borderRadius: "25px" }}
                   {...getInputProps({
                     placeholder: 'Search Places ...',
                     className: "w3-input",
@@ -155,6 +168,44 @@ const Event = () => {
           </PlacesAutocomplete>
           <br />
 
+          <h2 style={{ textAlign: "center" }}>Add Vendors</h2>
+
+          <input
+            type="text"
+            placeholder="Vendor Name"
+            value={thisVendor}
+            onChange={e => setThisvendor(e.target.value)}
+            className="w3-input"
+            style={{ borderRadius: "25px",marginBottom:"10px" }}
+          />
+
+
+          <div onClick={(p)=>{ 
+          addVendor.push(thisVendor) 
+          setThisvendor('')
+          console.log(addVendor)
+          setInputs({ ...inputs, vendor: addVendor})
+        }} style={{ backgroundColor: "#9A2A32",height:"20px",marginBottom:"10px" , textAlign: "center", borderRadius: "25px" }}>+</div>
+
+        <div>
+          {      
+        addVendor.map( (p)=> 
+        <div style={{backgroundColor:"black",paddingLeft:"2%",borderRadius: "25px"}}>
+        <div 
+        style={{cursor: 'pointer', float: "left", paddingTop:"5px"}} 
+        onClick={(myEvent)=>{
+          myEvent.stopPropagation()
+          const shouldDelete = window.confirm('delete event')
+          if (shouldDelete) {
+          addVendor.pop()
+          }
+        }}
+        >x</div>
+        <h3 style={{paddingLeft:"5%"}}>{p}</h3>
+        </div>
+        )
+          }
+       </div>
 
           <input
             type="submit"
@@ -165,7 +216,6 @@ const Event = () => {
 
         </form>
       </div>
-
 
     </div>
   )

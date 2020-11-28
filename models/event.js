@@ -14,8 +14,8 @@ const eventSchema = new Schema({
     latitude: {
         type: Number
     },
-    requests: {
-        type: Number
+    vendor: {
+        type: Array
     },
     date_created: {
         type: Date,

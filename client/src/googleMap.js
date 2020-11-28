@@ -10,7 +10,6 @@ import './App.css';
   const getEvents = async () => {
     const res = await axios.get("/api/events")
     setEvents(res.data)
-    console.log(events)
   }
   const defaultProps = {
     center: {
@@ -44,7 +43,6 @@ import './App.css';
                 lat={p.longitude}
                 lng={p.latitude}
                 />
-
               ))}
 
         </GoogleMapReact>

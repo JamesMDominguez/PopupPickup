@@ -13,14 +13,13 @@ module.exports = (app) => {
 
   //create new event
   app.post("/api/events/", async (req, res) => {
-    const {eventName,city,longitude,latitude,requests,vendors } = req.body;
+    const {eventName,city,longitude,latitude,vendor } = req.body;
     const newEvent = await Events.create({
       eventName,
       city,
       longitude,
       latitude,
-      requests,
-      vendors
+      vendor
     });
 
     const allEvents = await Events.find();
@@ -29,15 +28,14 @@ module.exports = (app) => {
 
   app.put("/api/events/:eventId", async (req, res) => {
     const { eventId } = req.params;
-    const { eventName,city,longitude,latitude,requests,vendors } = req.body;
+    const { eventName,city,longitude,latitude,vendor } = req.body;
 
     await Events.update({ _id: eventId }, {
       eventName,
       city,
       longitude,
       latitude,
-      requests,
-      vendors 
+      vendor
     });
 
     const allEvents = await Events.find();

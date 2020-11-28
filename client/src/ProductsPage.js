@@ -33,8 +33,8 @@ const ProductsPage = () => {
                     if (shouldDelete) {
                         handleDelete(product._id, event)
                     }
-                }} style={{ cursor: 'pointer' }}>
-                    <h1>x</h1>
+                }} style={{ cursor: 'pointer',fontSize: "20px",float: "left" }}>
+                    x
                 </div>
                 <p>{product.name}</p>
                 <p>{product.price}</p>
