@@ -33,7 +33,7 @@ const ProductsPage = () => {
                     if (shouldDelete) {
                         handleDelete(product._id, event)
                     }
-                }} style={{ cursor: 'pointer',fontSize: "20px",float: "left" }}>
+                }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
                     x
                 </div>
                 <p>{product.name}</p>
@@ -44,6 +44,16 @@ const ProductsPage = () => {
     const Item2 = ({ name, ...props }) =>
         (
             <div className="item" {...props} onClick={() => setVendorChosen(name)}>
+                <div
+                    style={{ cursor: 'pointer', float: "left", paddingTop: "5px" }}
+                    onClick={(myEvent) => {
+                        myEvent.stopPropagation()
+                        const shouldDelete = window.confirm('delete vendor')
+                        if (shouldDelete) {
+                            handleVenodorDelete({name}, myEvent)
+                        }
+                    }}
+                >x</div>
                 <p>{name}</p>
             </div>
         )
@@ -57,6 +67,11 @@ const ProductsPage = () => {
         const res = await axios.delete(`/api/products/${productId}`)
         setProducts(res.data)
     }
+    const handleVenodorDelete = async (vendorId, myEvent) => {
+        const res = await axios.delete(`/api/vendors/${vendorId}`)
+        setVendors(res.data)
+    }
+
 
     const handleSubmit = async (event) => {
         event.stopPropagation()
@@ -66,9 +81,9 @@ const ProductsPage = () => {
             setProducts(res.data)
         }
         else {
+            setInputs({ ...inputs, vendor: vendorChosen })
             const res = await axios.post("/api/products", inputs)
             setProducts(res.data)
-
         }
         setInputs(defaultValues)
         setSelectedProduct(null)
@@ -128,21 +143,12 @@ const ProductsPage = () => {
 
             <div style={{ paddingLeft: "30%" }}>
 
-                <form //login
+                <form //Edit Product
                     onSubmit={handleSubmit}
                     className="w3-theme-d3 w3-container"
                     style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
                     <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
-
-                    <input
-                        type="text"
-                        placeholder="Vandor"
-                        value={inputs.vendor}
-                        onChange={e => setInputs({ ...inputs, vendor: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
 
                     <br />
 
@@ -189,10 +195,12 @@ const ProductsPage = () => {
             </div>
             <br />
             <div style={{ paddingLeft: "30%" }}>
-                <form
+                <form //Create Vendor
                     onSubmit={handleVendorSubmit}
                     className="w3-theme-d3 w3-container"
                     style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
+
+                    <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Vendor" : "New Vendor"}</h2>
 
                     <input
                         type="text"

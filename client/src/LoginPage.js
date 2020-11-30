@@ -10,8 +10,6 @@ const defaultValues = {
   const LoginPage = () => {
   const [users, setUsers] = useState([])
   const [inputs, setInputs] = useState(defaultValues)
-  const [currentUser, setCurrentUser] = useState()
-  const [isUser, setIsUser] = useState(false)
 
   const AppUser = ({ userName, userType }) =>
   (
@@ -38,24 +36,6 @@ const handleSubmit = async (event) => {
     console.log(users)
 }
 
-const handleSubmit2 = async (event) => {
-  event.preventDefault()
-  event.stopPropagation()
-
-  users.map(()=>{
-      if(users.userName=currentUser){
-        setIsUser(true)
-      }
-      if(isUser===true){
-        console.log("Welcome Back")
-      }
-      else if(isUser===false){
-      console.log("Create an Account")
-      }
-  }
-  )
-
-}
 
 
 
@@ -117,33 +97,8 @@ useEffect(() => { getUsers() }, [])
               </form>
         </div>
 
-        <h1 style={{ textAlign: "center", textDecoration: "underline" }}>login</h1>
 
-        <div
-          className="w3-theme-d3 w3-container"
-          style={{ padding: "25px", borderRadius: "25px", width:"80%", marginLeft:"10%"}}
-        >
-          <h4>Click here to Login</h4>
 
-          <form onSubmit={handleSubmit2}>
-
-                    <input
-                        type="text"
-                        className="w3-input"
-                        onChange={e=> setCurrentUser(e.target.value)}
-                        placeholder="User Name"
-                        style={{ borderRadius: "25px" }}
-                    />
-
-                    <br />
-
-                    <input
-                        type="submit"
-                        className="w3-theme-d1 w3-btn"
-                        style={{ borderRadius: "25px", width: "100%" }}
-                    />
-              </form>
-        </div>
 
 
 

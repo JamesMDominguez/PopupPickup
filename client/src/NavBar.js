@@ -39,7 +39,7 @@ const w3_open = () => {
   <div className="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style={style} >
    <button onClick={w3_close} className="3-bar-item w3-button w3-large w3-hover-opacity">Close</button>
      <Link to="/" className="w3-bar-item w3-button w3-hover-opacity">Home</Link>
-     <Link to="/ProductsPage/" className="w3-bar-item w3-button w3-hover-opacity">Inventory</Link>
+     <Link to="/ProductsPage/" className="w3-bar-item w3-button w3-hover-opacity">Vendor/Products</Link>
      <Link to="/Event/" className="w3-bar-item w3-button w3-hover-opacity">Events</Link>
    </div>
 

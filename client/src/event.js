@@ -100,6 +100,7 @@ const Event = () => {
               event={p}
               onClick={() => {
                 setSelectedEvent(p._id)
+                setAdress(p.city)
                 setInputs(p)
               }}
             />
@@ -107,7 +108,7 @@ const Event = () => {
         }
       </div>
       <div style={{ paddingLeft: "30%" }}>
-        <form //login
+        <form //Create/Edit Event
           onSubmit={handleSubmit}
           className="w3-theme-d3 w3-container"
           style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
