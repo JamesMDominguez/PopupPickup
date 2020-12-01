@@ -4,6 +4,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
+const cookieSession = require("cookie-session");
+const passport = require("passport");
 require('dotenv').config()
 
 // DB config
@@ -26,13 +28,21 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(
+	cookieSession({
+		maxAge: 10800000, // 1 day
+		keys: [process.env.COOKIE_KEY]
+	})
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Route Files
 require("./routes/eventsRoutes")(app);
 require("./routes/vendorRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/productsRoutes")(app);
-
-
+require("./routes/authRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   // express will serve production assets (main.js/css)
