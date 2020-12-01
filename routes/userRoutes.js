@@ -10,9 +10,9 @@ module.exports = (app) => {
   });
 
   app.post("/api/users/", async (req, res) => {
-    const { userName, userType } = req.body;
+    const { username, userType } = req.body;
     await Users.create({
-      userName, userType
+      username, userType
     });
 
     const allUsers = await Users.find();

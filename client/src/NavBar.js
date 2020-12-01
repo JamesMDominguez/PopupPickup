@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import LoginPage from './LoginPage';
+import { useAuthState } from './AuthProvider'
 import Home from './Home';
 import ProductsPage from './ProductsPage';
 import Event from './event';
@@ -11,7 +12,7 @@ import './css/homePage.css';
 
 
 const NavBar = () =>{
-
+  const { user, logout } = useAuthState()
         const [NavDisplay, setNavDisplay] = useState("none")
         const [width, setWidth] = useState("0%")
 
@@ -20,19 +21,19 @@ const w3_open = () => {
   setNavDisplay("block")
   setWidth("25%")
 }
-  
+
   const w3_close = () => {
     setNavDisplay("none")
     setWidth("0%")
   }
 
 
-      
+
       const style={
         display:NavDisplay,
         width:width
      }
-        return (       
+        return (
 <div>
 
  <Router>
@@ -46,6 +47,14 @@ const w3_open = () => {
   <div className="NavBar">
     <button className="NavBarIcon" onClick={w3_open}>☰</button>
     <img style={{height:"50px",marginLeft:"30px",marginTop:"5px"}} onClick={()=><Link to="/"></Link>} src="https://i.postimg.cc/GtKMqRdq/popin-Head.jpg" alt="Untitled-Artwork" border="0"/>
+    {user && (
+      <div
+        style={{ display: "flex", float: "right", alignItems: "center" }}
+      >
+        <h4 style={{ float: "right" }}>Logged in: {user.username}</h4>
+        <button onClick={logout}>Logout</button>
+      </div>
+    )}
     <Link style={{float: "right",height:"40px",marginTop:"5px",marginRight:"10px",backgroundColor:"rgb(88,166, 255)",borderRadius: "10px"}} to="/LoginPage/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>
   </div>
   <Route exact path="/" component={Home} />
@@ -57,4 +66,3 @@ const w3_open = () => {
         )
 }
 export default NavBar;
-

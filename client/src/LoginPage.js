@@ -2,9 +2,11 @@ import React, {useEffect,useState} from "react"
 import './App.css';
 import axios from "axios";
 
+import LoginForm from './LoginForm'
+
 const defaultValues = {
   userName: "",
-  userType:""  
+  userType:""
 }
 
   const LoginPage = () => {
@@ -98,7 +100,7 @@ useEffect(() => { getUsers() }, [])
         </div>
 
 
-
+        <LoginForm />
 
 
 
