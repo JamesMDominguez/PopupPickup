@@ -24,6 +24,7 @@ const ProductsPage = () => {
 
     const [vendorChosen, setVendorChosen] = useState()
 
+
     const Item = ({ product, ...props }) =>
         (
             <div className="item" {...props}>
@@ -41,20 +42,20 @@ const ProductsPage = () => {
             </div>
         )
 
-    const Item2 = ({ name, ...props }) =>
+    const Item2 = ({ vendor, ...props }) =>
         (
-            <div className="item" {...props} onClick={() => setVendorChosen(name)}>
+            <div className="item" {...props} onClick={() => setVendorChosen(vendor.name)}>
                 <div
                     style={{ cursor: 'pointer', float: "left", paddingTop: "5px" }}
                     onClick={(myEvent) => {
                         myEvent.stopPropagation()
                         const shouldDelete = window.confirm('delete vendor')
                         if (shouldDelete) {
-                            handleVenodorDelete({name}, myEvent)
+                            handleVenodorDelete(vendor._id, myEvent)
                         }
                     }}
                 >x</div>
-                <p>{name}</p>
+                <p>{vendor.name}</p>
             </div>
         )
 
@@ -117,6 +118,7 @@ const ProductsPage = () => {
             <div className="container">
                 {vendors.map(p => (
                     <Item2
+                        vendor={p}
                         style={{ backgroundColor: "#9A2A32" }}
                         name={p.name}
                     />
