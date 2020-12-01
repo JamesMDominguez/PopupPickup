@@ -127,7 +127,7 @@ const ProductsPage = () => {
             <div className="container">
                 {
                     products.map(p => {
-                        if (p.vendor == vendorChosen) {
+                        if (p.vendor === vendorChosen) {
                             return <Item
                                 product={p}
                                 onClick={() => {

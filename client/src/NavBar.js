@@ -50,7 +50,7 @@ const w3_open = () => {
   </div>
   <Route exact path="/" component={Home} />
   <Route path="/LoginPage" component={LoginPage} />
-  <Route path="/ProductsPage" component={ProductsPage} />
+  <Route path="/ProductsPage" component={ProductsPage}/>
   <Route path="/Event" component={Event} />
 </Router>
 </div>

@@ -194,8 +194,8 @@ const Event = () => {
         onClick={(myEvent)=>{
           myEvent.stopPropagation()
           const shouldDelete = window.confirm('delete event')
-          if (shouldDelete) {
-            p.vendor.pop()
+          if(shouldDelete) {            
+            inputs.vendor.splice(inputs.vendor.indexOf(p),1)
           }
         }}
         >x</div>
