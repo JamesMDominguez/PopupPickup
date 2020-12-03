@@ -80,7 +80,7 @@ const ProductsPage = () => {
             <div className="container">
                 {
                     products.map(p => {
-                        if (p.vendor === user.username) {
+                        if (p.vendor === (user ? user.username:" ")) {
                             return <Item
                                 product={p}
                                 onClick={() => {

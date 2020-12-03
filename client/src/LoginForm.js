@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuthState } from "./AuthProvider";
 import axios from "axios";
-
 const LoginForm = () => {
   const { login } = useAuthState();
   const defaultValues = { username: "", password: "", userType: "vendor" };
@@ -27,7 +26,7 @@ const LoginForm = () => {
     } else {
       try {
         const res = await axios.post("/api/login", inputs);
-
+        
         login(res.data);
 
         setInputs(defaultValues);
