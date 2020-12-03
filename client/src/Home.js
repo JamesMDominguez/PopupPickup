@@ -25,8 +25,6 @@ const Home = () => {
   const [cart, setCart] = useState([])
   const { user } = useAuthState()
 
-  const [thisUser, setthisUser] = useState("")
-
 
 
   const getEvents = async () => {
@@ -86,31 +84,34 @@ const Home = () => {
       <br />
       <h2 style={{ marginLeft: "5%" }}>Events</h2>
       <div className="container">
-        {events.map(p => (
+        {events.map(p =>{ 
+          return(
           <EventInput
             key={p.eventName}
             eventName={p.eventName}
             vendor={p.vendor}
           />
-        ))}
+        )})}
       </div>
 
       <h2 style={{ marginLeft: "5%" }}>Vendors at Event</h2>
 
 
       <div className="container">
-        {selectedVendors.map(p =>
+        {selectedVendors.map(p => {
+          return(
           <EventInput2
+            key={p}
             vendor={p}
-          />)
-        }
+        />
+        )})}
       </div>
 
       <h2 style={{ marginLeft: "5%" }}>Vendor Products</h2>
 
       <div className="container">
         {products.map(p => {
-          if (currentVendor == p.vendor) {
+          if (currentVendor === p.vendor) {
             return (
               <div className="item" onClick={() => {
                 setOverlayDisplay("block")
@@ -147,8 +148,8 @@ const Home = () => {
       <div className="item" style={{backgroundColor:"rgba(0,0,50,0.2)", margin:"10%"}}>
       <h2 style={{ color:"black",textAlign:"left",paddingLeft:"5%"}}>Cart</h2>
       <div className="container">
-        {cart.map(p => {
-          if (p.cartUser == (user ? user.username:" ")) {
+        {cart.map((p)=> {
+          if (p.cartUser === (user ? user.username:" ")) {
             return (
               <div className="item">
                 <p>{p.cartName}</p>

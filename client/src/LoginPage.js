@@ -1,29 +1,10 @@
-import React, {useEffect,useState} from "react"
+import React from "react"
 import './App.css';
-import axios from "axios";
 
 import LoginForm from './LoginForm'
 
-const defaultValues = {
-  userName: "",
-  userType:""
-}
 
   const LoginPage = () => {
-  const [users, setUsers] = useState([])
-  const [inputs, setInputs] = useState(defaultValues)
-
-
-
-  const getUsers = async () => {
-    const res = await axios.get("/api/users")
-    setUsers(res.data)
-}
-
-
-
-
-useEffect(() => { getUsers() }, [])
 
     return (
       <div>

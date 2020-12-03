@@ -14,7 +14,7 @@ const defaultValues = {
 
 const ProductsPage = () => {
 
-    const { user, logout } = useAuthState()
+    const { user } = useAuthState()
     const [products, setProducts] = useState([])
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [inputs, setInputs] = useState(defaultValues)

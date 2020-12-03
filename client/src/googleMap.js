@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import axios from "axios";
 import './App.css';
 
-  const GoogleMap = () =>{
+const GoogleMap = () => {
 
   const [events, setEvents] = useState([])
 
@@ -21,34 +21,37 @@ import './App.css';
 
   useEffect(() => { getEvents() }, [])
 
-    const Marker = ({thisEventName}) => {
-      return(
-      <div className="container2">
-      <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px"}} alt="marker"/>
-      <div className="overlay">{thisEventName}</div>
-      </div>
-      )
-    }
+  const Marker = ({ thisEventName }) => {
     return (
-      // Important! Always set the container height explicitly
-      <div style={{ height: '500px', width: '100%',marginBottom:"50px"}}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key:"AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}
-        >
-              {events.map(p => (
-              <Marker
-                thisEventName={p.eventName}
-                lat={p.longitude}
-                lng={p.latitude}
-                />
-              ))}
-
-        </GoogleMapReact>
+      <div className="container2">
+        <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px" }} alt="marker" />
+        <div className="overlay">{thisEventName}</div>
       </div>
     )
   }
+  return (
+    // Important! Always set the container height explicitly
+    <div style={{ height: '500px', width: '100%', marginBottom: "50px" }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: "AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+      >
+        {events.map(p => {
+          return (
+            <Marker
+              key={p.eventName}
+              thisEventName={p.eventName}
+              lat={p.longitude}
+              lng={p.latitude}
+            />
+          )
+        })}
+
+      </GoogleMapReact>
+    </div>
+  )
+}
 
 
 export default GoogleMap;

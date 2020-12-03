@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import './App.css';
 import axios from "axios";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
-import ReactFilestack from 'filestack-react';
+//import ReactFilestack from 'filestack-react';
 
 const defaultValues = {
   eventName: "",
@@ -20,7 +20,6 @@ const Event = () => {
   const [address, setAdress] = useState('')
 
   const [thisVendor, setThisvendor] = useState([])
-  const [vendors, setVendors] = useState([])
 
 
 
