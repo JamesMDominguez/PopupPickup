@@ -15,15 +15,16 @@ const defaultValuesCart = {
 const Home = () => {
   const [events, setEvents] = useState([])
   const [products, setProducts] = useState([])
-  const [selectedVendors, setSelectedVendor] = useState([])
+  const [eventVendors, setEventVendors] = useState([])
+
+  const [currentEvent,  setCurrentEvent] = useState('')
   const [currentVendor, setCurrentVendor] = useState('')
+
   const [overlayDisplay, setOverlayDisplay] = useState("none")
   const [overlayContent, setOverlayContent] = useState("none")
 
-
   const [inputsCart, setInputsCart] = useState(defaultValuesCart)
   const { user } = useAuthState()
-
 
 
   const getEvents = async () => {
@@ -36,14 +37,17 @@ const Home = () => {
     setProducts(res.data)
   }
 
+  const getEventVendors = async () => {
+    const res = await axios.get("/api/eventsVendor")
+    setEventVendors(res.data)
+  }
 
 
-
-  const EventInput = ({ eventName, vendor }) =>
+  const EventInput = ({ eventName }) =>
     (
       <div className="item" onClick={() => {
-        setSelectedVendor(vendor)
-        setCurrentVendor(vendor)
+        setCurrentEvent(eventName)
+        setCurrentVendor('')
       }}
       >
         <p>{eventName}</p>
@@ -70,6 +74,7 @@ const Home = () => {
   }
 
   useEffect(() => { getEvents() }, [])
+  useEffect(() => { getEventVendors() }, [])
   useEffect(() => { getProducts() }, [])
 
   return (
@@ -81,9 +86,8 @@ const Home = () => {
         {events.map(p =>{ 
           return(
           <EventInput
-            key={p.eventName}
+            key={p._id}
             eventName={p.eventName}
-            vendor={p.vendor}
           />
         )})}
       </div>
@@ -92,13 +96,14 @@ const Home = () => {
 
 
       <div className="container">
-        {selectedVendors.map(p => {
+        {eventVendors.map(p => {
+          if(currentEvent === p.eventName){
           return(
           <EventInput2
-            key={p}
-            vendor={p}
+            key={p._id}
+            vendor={p.vendorName}
         />
-        )})}
+        )}})}
       </div>
 
       <h2 style={{ marginLeft: "5%" }}>Vendor Products</h2>
