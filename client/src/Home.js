@@ -113,7 +113,7 @@ const Home = () => {
         {products.map(p => {
           if (currentVendor === p.vendor) {
             return (
-              <div className="item" onClick={() => {
+              <div className="item"  key={p.name} onClick={() => {
                 setOverlayDisplay("block")
                 setOverlayContent(p.name+" $"+p.price)
                 setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username:" "})
