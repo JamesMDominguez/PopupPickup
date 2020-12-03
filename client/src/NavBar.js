@@ -27,6 +27,7 @@ const w3_open = () => {
     setWidth("0%")
   }
 
+  
 
 
       const style={
@@ -52,7 +53,7 @@ const w3_open = () => {
         style={{ display: "flex", float: "right", alignItems: "center" }}
       >
         <h4 style={{ float: "right" }}>Logged in: {user.username}</h4>
-        <button onClick={logout}>Logout</button>
+        <button onClick={logout} className="w3-bar-item w3-button w3-hover-opacity">Logout</button>
       </div>
     )}
     <Link style={{float: "right",height:"40px",marginTop:"5px",marginRight:"10px",backgroundColor:"rgb(88,166, 255)",borderRadius: "10px"}} to="/LoginPage/" className="w3-bar-item w3-button w3-hover-opacity">Login</Link>

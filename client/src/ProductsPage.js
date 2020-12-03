@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import './App.css';
 import axios from "axios";
+import { useAuthState } from './AuthProvider'
 
 const defaultValues = {
     name: "",
@@ -9,21 +10,14 @@ const defaultValues = {
     vendor: ""
 }
 
-const defaultValuesVendor = {
-    name: ""
-}
+
 
 const ProductsPage = () => {
 
+    const { user, logout } = useAuthState()
     const [products, setProducts] = useState([])
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [inputs, setInputs] = useState(defaultValues)
-
-    const [vendors, setVendors] = useState([])
-    const [vinputs, setVendorInputs] = useState(defaultValuesVendor)
-
-    const [vendorChosen, setVendorChosen] = useState()
-
 
     const Item = ({ product, ...props }) =>
         (
@@ -39,25 +33,11 @@ const ProductsPage = () => {
                 </div>
                 <p>{product.name}</p>
                 <p>{product.price}</p>
+                <p>{user.username}</p>
             </div>
         )
 
-    const Item2 = ({ vendor, ...props }) =>
-        (
-            <div className="item" {...props} onClick={() => setVendorChosen(vendor.name)}>
-                <div
-                    style={{ cursor: 'pointer', float: "left", paddingTop: "5px" }}
-                    onClick={(myEvent) => {
-                        myEvent.stopPropagation()
-                        const shouldDelete = window.confirm('delete vendor')
-                        if (shouldDelete) {
-                            handleVenodorDelete(vendor._id, myEvent)
-                        }
-                    }}
-                >x</div>
-                <p>{vendor.name}</p>
-            </div>
-        )
+
 
     const getProducts = async () => {
         const res = await axios.get("/api/products")
@@ -68,10 +48,7 @@ const ProductsPage = () => {
         const res = await axios.delete(`/api/products/${productId}`)
         setProducts(res.data)
     }
-    const handleVenodorDelete = async (vendorId, myEvent) => {
-        const res = await axios.delete(`/api/vendors/${vendorId}`)
-        setVendors(res.data)
-    }
+
 
 
     const handleSubmit = async (event) => {
@@ -82,29 +59,13 @@ const ProductsPage = () => {
             setProducts(res.data)
         }
         else {
-            setInputs({ ...inputs, vendor: vendorChosen })
+            setInputs({ ...inputs, vendor: user.username })
             const res = await axios.post("/api/products", inputs)
             setProducts(res.data)
         }
         setInputs(defaultValues)
         setSelectedProduct(null)
     }
-
-    const getVendors = async () => {
-        const res = await axios.get("/api/vendors")
-        setVendors(res.data)
-    }
-
-    const handleVendorSubmit = async (event) => {
-        event.stopPropagation()
-        event.preventDefault()
-
-        const res = await axios.post("/api/vendors", vinputs)
-        setVendors(res.data)
-        setVendorInputs(defaultValuesVendor)
-    }
-
-    useEffect(() => { getVendors() }, [])
 
     useEffect(() => { getProducts() }, [])
 
@@ -115,21 +76,11 @@ const ProductsPage = () => {
 
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
-            <div className="container">
-                {vendors.map(p => (
-                    <Item2
-                        vendor={p}
-                        style={{ backgroundColor: "#9A2A32" }}
-                        name={p.name}
-                    />
-                ))
-                }
-            </div>
 
             <div className="container">
                 {
                     products.map(p => {
-                        if (p.vendor === vendorChosen) {
+                        if (p.vendor === user.username) {
                             return <Item
                                 product={p}
                                 onClick={() => {
@@ -195,34 +146,7 @@ const ProductsPage = () => {
                     />
                 </form>
             </div>
-            <br />
-            <div style={{ paddingLeft: "30%" }}>
-                <form //Create Vendor
-                    onSubmit={handleVendorSubmit}
-                    className="w3-theme-d3 w3-container"
-                    style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
-                    <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Vendor" : "New Vendor"}</h2>
-
-                    <input
-                        type="text"
-                        placeholder="VendorName"
-                        value={vinputs.name}
-                        onChange={e => setVendorInputs({ ...vinputs, name: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
-
-                    <br />
-
-                    <input
-                        type="submit"
-                        value="Submit"
-                        className="w3-theme-d1 w3-btn"
-                        style={{ borderRadius: "25px", width: "100%" }}
-                    />
-                </form>
-            </div>
 
         </div>
     )

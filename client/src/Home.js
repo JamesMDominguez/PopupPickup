@@ -3,15 +3,29 @@ import './App.css';
 import './css/homePage.css';
 import GoogleMap from "./googleMap";
 import axios from "axios";
-import { render } from "react-dom";
+import { useAuthState } from './AuthProvider'
 
 
+const defaultValuesCart = {
+  cartName: '',
+  cartPrice: 0,
+  cartUser: ''
+}
 
 const Home = () => {
   const [events, setEvents] = useState([])
   const [products, setProducts] = useState([])
-  const [selectedVendor, setSelectedVendor] = useState([])
+  const [selectedVendors, setSelectedVendor] = useState([])
   const [currentVendor, setCurrentVendor] = useState('')
+  const [overlayDisplay, setOverlayDisplay] = useState("none")
+  const [overlayContent, setOverlayContent] = useState("none")
+
+
+  const [inputsCart, setInputsCart] = useState(defaultValuesCart)
+  const [cart, setCart] = useState([])
+
+  const { user } = useAuthState() //login data
+
 
 
   const getEvents = async () => {
@@ -24,7 +38,13 @@ const Home = () => {
     setProducts(res.data)
   }
 
-  const EventInput = ({ eventName ,vendor }) =>
+  const getCart = async () => {
+    const res = await axios.get("/api/cart")
+    setCart(res.data)
+  }
+
+
+  const EventInput = ({ eventName, vendor }) =>
     (
       <div className="item" onClick={() => {
         setSelectedVendor(vendor)
@@ -47,17 +67,17 @@ const Home = () => {
       </div>
     )
 
-  const EventInput3 = ({ name }) =>
-    (
-      <div className="item">
-        <p>{name}</p>
-      </div>
-    )
-
+  const addToCart = async (event) => { //handle submit
+    event.stopPropagation()
+    event.preventDefault()
+    const res = await axios.post("/api/cart", inputsCart)
+    setCart(res.data)
+    setInputsCart(defaultValuesCart)
+  }
 
   useEffect(() => { getEvents() }, [])
   useEffect(() => { getProducts() }, [])
-
+  useEffect(() => { getCart() }, [])
 
   return (
     <div>
@@ -78,7 +98,7 @@ const Home = () => {
 
 
       <div className="container">
-        {selectedVendor.map(p =>
+        {selectedVendors.map(p =>
           <EventInput2
             vendor={p}
           />)
@@ -91,13 +111,52 @@ const Home = () => {
         {products.map(p => {
           if (currentVendor == p.vendor) {
             return (
-              <div className="item">
-                <p>{p.name}</p>
-                <p>${p.price}</p>
+              <div className="item" onClick={() => {
+                setOverlayDisplay("block")
+                setOverlayContent(p.name+" $"+p.price)
+                setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user.username })
+              }}>
+                <p>{p.name+" $"+p.price}</p>
+                <div id="overlay2" onClick={(event)=>{
+                  event.stopPropagation()
+                  setOverlayDisplay("none")
+                }}
+                 style={{display:overlayDisplay}}>
+                  <div id="text">
+                    <p>{overlayContent}</p>
+                    <div
+                      style={{
+                        width: "100%",
+                        borderRadius:"10px",
+                        backgroundColor: "green"
+                      }}
+                      onClick={(event) => {
+                        addToCart(event)
+                      }}>+</div>
+                  </div>
+                </div>
+
               </div>
             )
           }
         })}
+      </div>
+
+
+      <div className="item" style={{backgroundColor:"rgba(0,0,50,0.2)", margin:"10%"}}>
+      <h2 style={{ color:"black",textAlign:"left",paddingLeft:"5%"}}>Cart</h2>
+      <div className="container">
+        {cart.map(p => {
+          if (p.cartUser == user.username) {
+            return (
+              <div className="item">
+                <p>{p.cartName}</p>
+              </div>
+            )
+          }
+        }
+        )}
+      </div>
       </div>
 
     </div>

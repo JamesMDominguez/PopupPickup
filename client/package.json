@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
+    "filestack-react": "^3.2.1",
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "react": "^17.0.1",

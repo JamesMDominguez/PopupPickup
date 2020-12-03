@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react"
 import './App.css';
 import axios from "axios";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
+import ReactFilestack from 'filestack-react';
 
 const defaultValues = {
   eventName: "",
   city: "",
   longitude: "",
   latitude: "",
-  vendor:[]
+  vendor: []
 }
 
 const Event = () => {
@@ -17,8 +18,10 @@ const Event = () => {
 
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
+
   const [thisVendor, setThisvendor] = useState([])
-   
+  const [vendors, setVendors] = useState([])
+
 
 
   const Item = ({ event, ...props }) =>
@@ -33,13 +36,13 @@ const Event = () => {
         }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
           x
         </div>
-        
+
         <p>{event.eventName}</p>
         <p>{event.city}</p>
         <h4>Vendors:</h4>
-        <div>{event.vendor.map(p=>
-            <p style={{display:"inline"}}>{p} </p>
-          )}</div>
+        <div>{event.vendor.map(p =>
+          <p style={{ display: "inline" }}>{p} </p>
+        )}</div>
       </div>
     )
 
@@ -80,7 +83,6 @@ const Event = () => {
     else {
       const res = await axios.post("/api/events", inputs)
       setEvents(res.data)
-
     }
     setInputs(defaultValues)
     setSelectedEvent(null)
@@ -168,7 +170,7 @@ const Event = () => {
           </PlacesAutocomplete>
           <br />
 
-                <h2 style={{ textAlign: "center" }}>{selectedEvent?"Add Vendors":"Edit Vendors"}</h2>
+          <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Add Vendors" : "Edit Vendors"}</h2>
 
           <input
             type="text"
@@ -176,34 +178,34 @@ const Event = () => {
             value={thisVendor}
             onChange={e => setThisvendor(e.target.value)}
             className="w3-input"
-            style={{ borderRadius: "25px",marginBottom:"10px" }}
+            style={{ borderRadius: "25px", marginBottom: "10px" }}
           />
 
 
-          <div onClick={(p)=>{ 
-          inputs.vendor.push(thisVendor)
-          setThisvendor('')
-        }} style={{ backgroundColor: "#9A2A32",height:"20px",marginBottom:"10px" , textAlign: "center", borderRadius: "25px" }}>+</div>
+          <div onClick={(p) => {
+            inputs.vendor.push(thisVendor)
+            setThisvendor('')
+          }} style={{ backgroundColor: "#9A2A32", height: "20px", marginBottom: "10px", textAlign: "center", borderRadius: "25px" }}>+</div>
 
-        <div>
-          {      
-        inputs.vendor.map( (p)=> 
-        <div style={{backgroundColor:"black",paddingLeft:"2%",borderRadius: "25px"}}>
-        <div 
-        style={{cursor: 'pointer', float: "left", paddingTop:"5px"}} 
-        onClick={(myEvent)=>{
-          myEvent.stopPropagation()
-          const shouldDelete = window.confirm('delete event')
-          if(shouldDelete) {            
-            inputs.vendor.splice(inputs.vendor.indexOf(p),1)
-          }
-        }}
-        >x</div>
-        <h3 style={{paddingLeft:"5%"}}>{p}</h3>
-        </div>
-        )
-          }
-       </div>
+          <div>
+            {
+              inputs.vendor.map((p) =>
+                <div style={{ backgroundColor: "black", paddingLeft: "2%", borderRadius: "25px" }}>
+                  <div
+                    style={{ cursor: 'pointer', float: "left", paddingTop: "5px" }}
+                    onClick={(myEvent) => {
+                      myEvent.stopPropagation()
+                      const shouldDelete = window.confirm('delete event')
+                      if (shouldDelete) {
+                        inputs.vendor.splice(inputs.vendor.indexOf(p), 1)
+                      }
+                    }}
+                  >x</div>
+                  <h3 style={{ paddingLeft: "5%" }}>{p}</h3>
+                </div>
+              )
+            }
+          </div>
 
           <input
             type="submit"
@@ -214,7 +216,10 @@ const Event = () => {
 
         </form>
       </div>
-
+      {/* <ReactFilestack
+        apikey="AHIIOvCrzSRKTqBpvm6ZUz"
+        onSuccess={(res) => console.log(res)}
+      /> */}
     </div>
   )
 }
