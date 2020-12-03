@@ -17,8 +17,10 @@ mongoose.Promise = global.Promise;
 require("./models/event");
 require("./models/product");
 require("./models/vendor");
-require("./models/customer");
 require("./models/user");
+require("./models/cart");
+require("./models/eventVendor");
+
 
 // Middleware start
 const app = express();
@@ -43,6 +45,10 @@ require("./routes/vendorRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/productsRoutes")(app);
 require("./routes/authRoutes")(app);
+require("./routes/cartRoutes")(app);
+require("./routes/eventVendorRoutes")(app);
+
+
 
 if (process.env.NODE_ENV === "production") {
   // express will serve production assets (main.js/css)

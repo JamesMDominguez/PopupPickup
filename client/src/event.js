@@ -2,25 +2,32 @@ import React, { useEffect, useState } from "react"
 import './App.css';
 import axios from "axios";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
-//import ReactFilestack from 'filestack-react';
+import { useAuthState } from './AuthProvider'
 
 const defaultValues = {
   eventName: "",
   city: "",
   longitude: "",
-  latitude: "",
-  vendor: []
+  latitude: ""
+}
+
+const defaultEventVendor = {
+  eventName: "",
+  vendorName: ""
 }
 
 const Event = () => {
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
 
+  const [eventVendors, setEventVendors] = useState([])
+  const [inputEV, setInputEV] = useState(defaultEventVendor)
+
+
   const [inputs, setInputs] = useState(defaultValues)
   const [address, setAdress] = useState('')
 
-  const [thisVendor, setThisvendor] = useState([])
-
+  const { user } = useAuthState()
 
 
   const Item = ({ event, ...props }) =>
@@ -38,13 +45,24 @@ const Event = () => {
 
         <p>{event.eventName}</p>
         <p>{event.city}</p>
-        <h4>Vendors:</h4>
-        <div>{event.vendor.map(p =>
-          <p style={{ display: "inline" }}>{p} </p>
-        )}</div>
       </div>
     )
 
+  const Item2 = ({ vendorName , _id }) =>
+    (
+      <div className="item" style={{backgroundColor:"black"}}>
+          <div onClick={(myEvent) => {
+          myEvent.stopPropagation()
+          const shouldDelete = window.confirm('delete event')
+          if (shouldDelete) {
+            handleEVendorDelete(_id)
+          }
+        }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
+          x
+        </div>
+        <p>{vendorName}</p>
+      </div>
+    )
 
 
   const getEvents = async () => {
@@ -52,7 +70,10 @@ const Event = () => {
     setEvents(res.data)
   }
 
-
+  const getEventVendors = async () => {
+    const res = await axios.get("/api/eventsVendor")
+    setEventVendors(res.data)
+  }
 
   const handleChange = address => {
     setAdress(address)
@@ -69,6 +90,19 @@ const Event = () => {
   const handleDelete = async (eventId, event) => {
     const res = await axios.delete(`/api/events/${eventId}`)
     setEvents(res.data)
+  }
+
+  const handleEVendorDelete = async (eventId) => {
+    const res = await axios.delete(`/api/eventsVendor/${eventId}`)
+    setEventVendors(res.data)
+  }
+
+  const addEventVendor = async (event) => { //handle submit
+    event.stopPropagation()
+    event.preventDefault()
+    const res = await axios.post("/api/eventsVendor", inputEV)
+    setEventVendors(res.data)
+    setInputEV(defaultEventVendor)
   }
 
   const handleSubmit = async (event) => {
@@ -88,6 +122,8 @@ const Event = () => {
   }
 
   useEffect(() => { getEvents() }, [])
+  useEffect(() => { getEventVendors() }, [])
+
 
   return (
     <div>
@@ -96,18 +132,20 @@ const Event = () => {
 
       <div className="container">
         {
-          events.map(p => (
-            <Item
-              event={p}
-              onClick={() => {
-                setSelectedEvent(p._id)
-                setAdress(p.city)
-                setInputs(p)
-              }}
-            />
-          ))
+          events.map((p) => {
+            if (p.eventName === (user ? user.username : " ")) {
+              return (<Item
+                event={p}
+                onClick={() => {
+                  setSelectedEvent(p._id)
+                  setAdress(p.city)
+                  setInputs(p)
+                }} />)
+            }
+          })
         }
       </div>
+
       <div style={{ paddingLeft: "30%" }}>
         <form //Create/Edit Event
           onSubmit={handleSubmit}
@@ -167,44 +205,8 @@ const Event = () => {
               </div>
             )}
           </PlacesAutocomplete>
+
           <br />
-
-          <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Add Vendors" : "Edit Vendors"}</h2>
-
-          <input
-            type="text"
-            placeholder="Vendor Name"
-            value={thisVendor}
-            onChange={e => setThisvendor(e.target.value)}
-            className="w3-input"
-            style={{ borderRadius: "25px", marginBottom: "10px" }}
-          />
-
-
-          <div onClick={(p) => {
-            inputs.vendor.push(thisVendor)
-            setThisvendor('')
-          }} style={{ backgroundColor: "#9A2A32", height: "20px", marginBottom: "10px", textAlign: "center", borderRadius: "25px" }}>+</div>
-
-          <div>
-            {
-              inputs.vendor.map((p) =>
-                <div style={{ backgroundColor: "black", paddingLeft: "2%", borderRadius: "25px" }}>
-                  <div
-                    style={{ cursor: 'pointer', float: "left", paddingTop: "5px" }}
-                    onClick={(myEvent) => {
-                      myEvent.stopPropagation()
-                      const shouldDelete = window.confirm('delete event')
-                      if (shouldDelete) {
-                        inputs.vendor.splice(inputs.vendor.indexOf(p), 1)
-                      }
-                    }}
-                  >x</div>
-                  <h3 style={{ paddingLeft: "5%" }}>{p}</h3>
-                </div>
-              )
-            }
-          </div>
 
           <input
             type="submit"
@@ -212,13 +214,46 @@ const Event = () => {
             className="w3-theme-d1 w3-btn"
             style={{ borderRadius: "25px", width: "100%" }}
           />
-
         </form>
       </div>
-      {/* <ReactFilestack
-        apikey="AHIIOvCrzSRKTqBpvm6ZUz"
-        onSuccess={(res) => console.log(res)}
-      /> */}
+
+      <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Vendors" : "New Vendor"}</h2>
+
+      <div className="item" style={{width:"42%",marginLeft:"30%"}}>
+        <input
+          type="text"
+          placeholder="Add Vendor"
+          className="w3-input"
+          value={inputEV.vendorName}
+          style={{ borderRadius: "25px" }}
+          onChange={e =>{
+            setInputEV({ ...inputEV, vendorName: e.target.value,eventName: (user ? user.username : " ") })
+          }}
+        />
+
+        <br />
+
+        <div style={{ backgroundColor: "blue", borderRadius: "100px" }}
+          onClick={(myEvent) => {
+            addEventVendor(myEvent)
+          }}>+</div>
+
+        <div className="container">
+          {
+            eventVendors.map((p) => { 
+              if(p.eventName===(user ? user.username : "")){
+            return(
+              <Item2
+              key={p._id}
+              vendorName={p.vendorName}
+              _id={p._id}
+              />
+            )}
+          })
+          }
+        </div>
+      </div>
+
     </div>
   )
 }

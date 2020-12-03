@@ -4,7 +4,7 @@ import './css/homePage.css';
 import GoogleMap from "./googleMap";
 import axios from "axios";
 import { useAuthState } from './AuthProvider'
-
+import Cart from './Cart'
 
 const defaultValuesCart = {
   cartName: '',
@@ -22,7 +22,6 @@ const Home = () => {
 
 
   const [inputsCart, setInputsCart] = useState(defaultValuesCart)
-  const [cart, setCart] = useState([])
   const { user } = useAuthState()
 
 
@@ -37,10 +36,7 @@ const Home = () => {
     setProducts(res.data)
   }
 
-  const getCart = async () => {
-    const res = await axios.get("/api/cart")
-    setCart(res.data)
-  }
+
 
 
   const EventInput = ({ eventName, vendor }) =>
@@ -70,13 +66,11 @@ const Home = () => {
     event.stopPropagation()
     event.preventDefault()
     const res = await axios.post("/api/cart", inputsCart)
-    setCart(res.data)
     setInputsCart(defaultValuesCart)
   }
 
   useEffect(() => { getEvents() }, [])
   useEffect(() => { getProducts() }, [])
-  useEffect(() => { getCart() }, [])
 
   return (
     <div>
@@ -143,23 +137,8 @@ const Home = () => {
           }
         })}
       </div>
-
-
-      <div className="item" style={{backgroundColor:"rgba(0,0,50,0.2)", margin:"10%"}}>
-      <h2 style={{ color:"black",textAlign:"left",paddingLeft:"5%"}}>Cart</h2>
-      <div className="container">
-        {cart.map((p)=> {
-          if (p.cartUser === (user ? user.username:" ")) {
-            return (
-              <div className="item">
-                <p>{p.cartName}</p>
-              </div>
-            )
-          }
-        }
-        )}
-      </div>
-      </div>
+      
+      <Cart/>
 
     </div>
   )
