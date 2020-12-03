@@ -13,14 +13,7 @@ const defaultValues = {
   const [users, setUsers] = useState([])
   const [inputs, setInputs] = useState(defaultValues)
 
-  const AppUser = ({ userName, userType }) =>
-  (
-          <div className="item">
-              <p>{userName}</p>
-              <p>{userType}</p>
-          </div>
 
-  )
 
   const getUsers = async () => {
     const res = await axios.get("/api/users")
@@ -36,16 +29,6 @@ useEffect(() => { getUsers() }, [])
       <div>
         <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Users</h1>
 
-        <div className="container">
-                {
-                users.map(p => (
-                    <AppUser
-                    userName={p.userName}
-                    userType={p.userType}
-                    />
-                ))
-                }
-            </div>
 
 
         <LoginForm />

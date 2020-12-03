@@ -23,9 +23,16 @@ const Home = () => {
 
   const [inputsCart, setInputsCart] = useState(defaultValuesCart)
   const [cart, setCart] = useState([])
+  const { user } = useAuthState()
 
-  const { user } = useAuthState() //login data
-
+  const [thisUser, setthisUser] = useState("")
+  if(user&&thisUser==""){
+    console.log(user.username)
+    setthisUser(user.username)
+  }
+  if(!user&&thisUser){
+    setthisUser("")
+  }
 
 
   const getEvents = async () => {
@@ -114,7 +121,7 @@ const Home = () => {
               <div className="item" onClick={() => {
                 setOverlayDisplay("block")
                 setOverlayContent(p.name+" $"+p.price)
-                setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user.username })
+                setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: thisUser})
               }}>
                 <p>{p.name+" $"+p.price}</p>
                 <div id="overlay2" onClick={(event)=>{
@@ -147,7 +154,7 @@ const Home = () => {
       <h2 style={{ color:"black",textAlign:"left",paddingLeft:"5%"}}>Cart</h2>
       <div className="container">
         {cart.map(p => {
-          if (p.cartUser == user.username) {
+          if (p.cartUser == thisUser) {
             return (
               <div className="item">
                 <p>{p.cartName}</p>
