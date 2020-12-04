@@ -9,13 +9,7 @@ import LoginForm from './LoginForm'
     return (
       <div>
         <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Users</h1>
-
-
-
         <LoginForm />
-
-
-
       </div>
     )
 }

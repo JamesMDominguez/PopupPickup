@@ -32,7 +32,7 @@ const Event = () => {
 
   const Item = ({ event, ...props }) =>
     (
-      <div className="item" {...props} style={{backgroundColor:"black"}}>
+      <div className="item" {...props}>
         <div onClick={(myEvent) => {
           myEvent.stopPropagation()
           const shouldDelete = window.confirm('delete event')
@@ -50,7 +50,7 @@ const Event = () => {
 
   const Item2 = ({ vendorName , _id }) =>
     (
-      <div className="item" style={{backgroundColor:"black"}}>
+      <div className="item">
           <div onClick={(myEvent) => {
           myEvent.stopPropagation()
           const shouldDelete = window.confirm('delete event')
@@ -130,7 +130,7 @@ const Event = () => {
       <img style={{ width: "100%" }} src="https://i.postimg.cc/K8z4Jhnj/IMG-0737.jpg" alt="Untitled-Artwork" border="0" />
 
 
-      <div className="item" style={{width:"42%",marginLeft:"30%",marginTop:"20px"}}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
         {
           events.map((p) => {
             if (p.eventName === (user ? user.username : " ")) {
@@ -148,11 +148,9 @@ const Event = () => {
 
       <br/>
 
-      <div style={{ paddingLeft: "30%" }}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
         <form //Create/Edit Event
-          onSubmit={handleSubmit}
-          className="item"
-          style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
+          onSubmit={handleSubmit}>
 
           <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Event" : "New Event"}</h2>
 
@@ -214,12 +212,13 @@ const Event = () => {
             type="submit"
             value="Submit"
             className="w3-btn"
-            style={{ borderRadius: "25px", width: "100%", backgroundColor:"blue"}}
+            style={{ borderRadius: "25px", width: "100%", backgroundColor:"#AC3C40"}}
           />
         </form>
       </div>
         <br/>
-      <div className="item" style={{width:"42%",marginLeft:"30%"}}>
+        <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+
       <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Vendors" : "New Vendor"}</h2>
 
         <input
@@ -235,7 +234,7 @@ const Event = () => {
 
         <br />
 
-        <div style={{ backgroundColor: "blue", borderRadius: "100px" }}
+        <div style={{ backgroundColor: "#AC3C40", borderRadius: "100px" }}
           onClick={(myEvent) => {
             addEventVendor(myEvent)
           }}>+</div>

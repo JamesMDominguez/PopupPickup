@@ -20,6 +20,7 @@ const NavBar = () => {
   const w3_open = () => {
     setNavDisplay("block")
     setWidth("25%")
+    
   }
 
   const w3_close = () => {
@@ -51,9 +52,7 @@ const NavBar = () => {
           alt="Untitled-Artwork" border="0" />
 
           {user && (
-            <div
-              style={{ display: "flex", float: "right", alignItems: "center" }}
-            >
+            <div style={{ display: "flex", float: "right", alignItems: "center" }}>
               <h4 style={{ float: "right" }}>Logged in: {user.username}</h4>
               <button onClick={logout} className="w3-bar-item w3-button w3-hover-opacity">Logout</button>
             </div>

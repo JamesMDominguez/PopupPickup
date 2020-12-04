@@ -76,7 +76,7 @@ const ProductsPage = () => {
 
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
-
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
             <div className="container">
                 {
                     products.map(p => {
@@ -92,14 +92,14 @@ const ProductsPage = () => {
                     })
                 }
             </div>
+            </div>
 
 
-            <div style={{ paddingLeft: "30%" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
-                    className="item"
-                    style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
+                    >
 
                     <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
 
@@ -142,7 +142,7 @@ const ProductsPage = () => {
                         type="submit"
                         value="Submit"
                         className="w3-btn"
-                        style={{ borderRadius: "25px", width: "100%", backgroundColor:"blue" }}
+                        style={{ borderRadius: "25px", width: "100%", backgroundColor:"#AC3C40" }}
                     />
                 </form>
             </div>
