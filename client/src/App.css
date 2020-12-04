@@ -3,9 +3,6 @@
     background-color:rgb(255, 255, 255);
 }
 
-h1{
-  color: #1859a3;
-}
 
 .NavBar{
   background-color:rgb(255, 255, 255);
@@ -32,9 +29,9 @@ h1{
 }
 .item {
   background: rgb(103, 173, 253);
-  color: #ccf5ff;
   border-radius: 20px;
   padding: 10px;
+  color:white;
   font-size: 20px;
   text-align: center;
 }

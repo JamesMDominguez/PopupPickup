@@ -91,73 +91,78 @@ const Home = () => {
   return (
     <div>
       <GoogleMap />
-      <br />
-      <h2 style={{ marginLeft: "5%" }}>Events</h2>
-      <div className="container">
-        {events.map(p => {
-          return (
-            <EventInput
-              key={p._id}
-              eventName={p.eventName}
-            />
-          )
-        })}
-      </div>
 
-      <h2 style={{ marginLeft: "5%" }}>Vendors at Event</h2>
-
-
-      <div className="container">
-        {eventVendors.map(p => {
-          if (currentEvent === p.eventName) {
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Events in the Area</h2>
+        <div className="container">
+          {events.map(p => {
             return (
-              <EventInput2
+              <EventInput
                 key={p._id}
-                vendor={p.vendorName}
+                eventName={p.eventName}
               />
             )
-          }
-        })}
+          })}
+        </div>
       </div>
 
-      <h2 style={{ marginLeft: "5%" }}>Vendor Products</h2>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>{currentEvent} Vendors</h2>
+        <div className="container">
+          {eventVendors.map(p => {
+            if (currentEvent === p.eventName) {
+              return (
+                <EventInput2
+                  key={p._id}
+                  vendor={p.vendorName}
+                />
+              )
+            }
+          })}
+        </div>
+      </div>
 
-      <div className="container">
-        {products.map(p => {
-          if (currentVendor === p.vendor) {
-            return (
-              <div className="item" key={p.name} onClick={() => {
-                setOverlayDisplay("block")
-                setOverlayContent(p.name + " $" + p.price)
-                setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " " })
-              }}>
-                <p>{p.name + " $" + p.price}</p>
-                <div id="overlay2" onClick={(event) => {
-                  event.stopPropagation()
-                  setOverlayDisplay("none")
-                }}
-                  style={{ display: overlayDisplay }}>
-                  <div id="text">
-                    <p>{overlayContent}</p>
-                    <div
-                      style={{
-                        width: "100%",
-                        borderRadius: "10px",
-                        backgroundColor: "green"
-                      }}
-                      onClick={(event) => {
-                        addToCart(event)
-                      }}>+</div>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+
+        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>{currentVendor} Products</h2>
+
+        <div className="container">
+          {products.map(p => {
+            if (currentVendor === p.vendor) {
+              return (
+                <div className="item" key={p.name} onClick={() => {
+                  setOverlayDisplay("block")
+                  setOverlayContent(p.name + " $" + p.price)
+                  setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " " })
+                }}>
+                  <p>{p.name + " $" + p.price}</p>
+                  <div id="overlay2" onClick={(event) => {
+                    event.stopPropagation()
+                    setOverlayDisplay("none")
+                  }}
+                    style={{ display: overlayDisplay }}>
+                    <div id="text">
+                      <p>{overlayContent}</p>
+                      <div
+                        style={{
+                          width: "100%",
+                          borderRadius: "10px",
+                          backgroundColor: "green"
+                        }}
+                        onClick={(event) => {
+                          addToCart(event)
+                        }}>+</div>
+                    </div>
                   </div>
-                </div>
 
-              </div>
-            )
-          }
-        })}
+                </div>
+              )
+            }
+          })}
+        </div>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.2)", margin: "10%" }}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
         <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Cart</h2>
         <div className="container">
           {cart.map((p) => {

@@ -45,7 +45,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w3-theme-d3 w3-container"
+      className="item"
       style={{
         padding: "25px",
         borderRadius: "25px",

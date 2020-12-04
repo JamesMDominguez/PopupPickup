@@ -98,7 +98,7 @@ const ProductsPage = () => {
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
-                    className="w3-theme-d3 w3-container"
+                    className="item"
                     style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
                     <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
@@ -141,8 +141,8 @@ const ProductsPage = () => {
                     <input
                         type="submit"
                         value="Submit"
-                        className="w3-theme-d1 w3-btn"
-                        style={{ borderRadius: "25px", width: "100%" }}
+                        className="w3-btn"
+                        style={{ borderRadius: "25px", width: "100%", backgroundColor:"blue" }}
                     />
                 </form>
             </div>
