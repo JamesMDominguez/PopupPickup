@@ -32,7 +32,7 @@ const Event = () => {
 
   const Item = ({ event, ...props }) =>
     (
-      <div className="item" {...props}>
+      <div className="item" {...props} style={{backgroundColor:"black"}}>
         <div onClick={(myEvent) => {
           myEvent.stopPropagation()
           const shouldDelete = window.confirm('delete event')
@@ -130,7 +130,7 @@ const Event = () => {
       <img style={{ width: "100%" }} src="https://i.postimg.cc/K8z4Jhnj/IMG-0737.jpg" alt="Untitled-Artwork" border="0" />
 
 
-      <div className="container">
+      <div className="item" style={{width:"42%",marginLeft:"30%",marginTop:"20px"}}>
         {
           events.map((p) => {
             if (p.eventName === (user ? user.username : " ")) {
@@ -146,10 +146,12 @@ const Event = () => {
         }
       </div>
 
+      <br/>
+
       <div style={{ paddingLeft: "30%" }}>
         <form //Create/Edit Event
           onSubmit={handleSubmit}
-          className="w3-theme-d3 w3-container"
+          className="item"
           style={{ width: "60%", padding: "25px", borderRadius: "25px" }}>
 
           <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Event" : "New Event"}</h2>
@@ -211,15 +213,15 @@ const Event = () => {
           <input
             type="submit"
             value="Submit"
-            className="w3-theme-d1 w3-btn"
-            style={{ borderRadius: "25px", width: "100%" }}
+            className="w3-btn"
+            style={{ borderRadius: "25px", width: "100%", backgroundColor:"blue"}}
           />
         </form>
       </div>
-
+        <br/>
+      <div className="item" style={{width:"42%",marginLeft:"30%"}}>
       <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Vendors" : "New Vendor"}</h2>
 
-      <div className="item" style={{width:"42%",marginLeft:"30%"}}>
         <input
           type="text"
           placeholder="Add Vendor"
