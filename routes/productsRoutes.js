@@ -11,9 +11,9 @@ module.exports = (app) => {
   });
 
   app.post("/api/products/", async (req, res) => {
-    const { vendor, name, price, quantity } = req.body;
+    const { vendor, name, price, quantity, url } = req.body;
     await Products.create({
-      vendor, name, price, quantity
+      vendor, name, price, quantity, url
     });
 
     const allProducts = await Products.find();
@@ -22,10 +22,10 @@ module.exports = (app) => {
 
   app.put("/api/products/:productId", async (req, res) => {
     const { productId } = req.params;
-    const { vendor, name, price, quantity } = req.body;
+    const { vendor, name, price, quantity, url } = req.body;
 
     await Products.update({ _id: productId }, {
-      vendor, name, price, quantity
+      vendor, name, price, quantity, url
     });
 
     const allProducts = await Products.find();

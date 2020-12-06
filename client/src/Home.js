@@ -135,6 +135,7 @@ const Home = () => {
                   setOverlayContent(p.name + " $" + p.price)
                   setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " " })
                 }}>
+               <img style={{ width: "80%",borderRadius:"25px",paddingTop:"10px" }} src={p.url} alt="Untitled-Artwork" border="0" />
                   <p>{p.name + " $" + p.price}</p>
                   <div id="overlay2" onClick={(event) => {
                     event.stopPropagation()

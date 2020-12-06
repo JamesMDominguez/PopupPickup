@@ -7,7 +7,8 @@ const defaultValues = {
     name: "",
     price: "",
     quantity: "",
-    vendor: ""
+    vendor: "",
+    url:""
 }
 
 
@@ -31,9 +32,8 @@ const ProductsPage = () => {
                 }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
                     x
                 </div>
-                <p>{product.name}</p>
-                <p>{product.price}</p>
-                <p>{user.username}</p>
+                <img style={{ width: "80%",borderRadius:"25px",paddingTop:"10px" }} src={product.url} alt="Untitled-Artwork" border="0" />
+                <p>{product.name} ${product.price}</p>
             </div>
         )
 
@@ -59,7 +59,6 @@ const ProductsPage = () => {
             setProducts(res.data)
         }
         else {
-            setInputs({ ...inputs, vendor: user.username })
             const res = await axios.post("/api/products", inputs)
             setProducts(res.data)
         }
@@ -109,7 +108,7 @@ const ProductsPage = () => {
                         type="text"
                         placeholder="Name"
                         value={inputs.name}
-                        onChange={e => setInputs({ ...inputs, name: e.target.value })}
+                        onChange={e => setInputs({ ...inputs, name: e.target.value, vendor: (user ? user.username : " ") })}
                         className="w3-input"
                         style={{ borderRadius: "25px" }}
                     />
@@ -132,6 +131,17 @@ const ProductsPage = () => {
                         placeholder="Quantity"
                         value={inputs.quantity}
                         onChange={e => setInputs({ ...inputs, quantity: e.target.value })}
+                        className="w3-input"
+                        style={{ borderRadius: "25px" }}
+                    />
+
+                    <br />
+
+                    <input
+                        type="text"
+                        placeholder="Img Url"
+                        value={inputs.url}
+                        onChange={e => setInputs({ ...inputs, url: e.target.value })}
                         className="w3-input"
                         style={{ borderRadius: "25px" }}
                     />

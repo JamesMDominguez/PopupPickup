@@ -14,6 +14,9 @@ const vendorSchema = new Schema({
     quantity: {
         type: Number
     },
+    url: {
+        type: String
+    },
     date_created: {
         type: Date,
         default: Date.now,

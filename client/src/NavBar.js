@@ -20,7 +20,6 @@ const NavBar = () => {
   const w3_open = () => {
     setNavDisplay("block")
     setWidth("25%")
-    
   }
 
   const w3_close = () => {
