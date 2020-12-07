@@ -167,7 +167,7 @@ const Home = () => {
         onClick={(event) => {
           const shouldAdd = window.confirm('Confirm Order')
           cart.forEach((p) => {
-            if (user && shouldAdd && (p.cartUser === user.username)) {
+            if (user && shouldAdd && (p.cartUser === user.username)&& (p.status === "")) {
               editCart(p)
             }
           })

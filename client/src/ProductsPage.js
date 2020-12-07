@@ -16,7 +16,7 @@ const defaultValuesCart = {
     cartPrice: 0,
     cartUser: '',
     status: ''
-  }
+}
 
 const ProductsPage = () => {
 
@@ -60,7 +60,15 @@ const ProductsPage = () => {
         setProducts(res.data)
     }
 
+    const acceptCart = async (p) => {
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Accepted", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName })
+        setCart(res.data)
+    }
 
+    const declineCart = async (p) => {
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Denied", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName })
+        setCart(res.data)
+    }
 
     const handleSubmit = async (event) => {
         event.stopPropagation()
@@ -171,17 +179,32 @@ const ProductsPage = () => {
             </div>
 
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
-            <h2 style={{ textAlign: "center" }}>Requests</h2>
+                <h2 style={{ textAlign: "center" }}>Requests</h2>
                 <div className="container">
                     {
                         cart.map(p => {
                             if ((p.cartUser === (user ? user.username : " ")) && (p.status === "pending...")) {
                                 return (
                                     <div className="item" key={p._id}>
-                                    <p>{p.cartName}</p>
-                                        <div style={{marginBottom:"5%"}}>
-                                        <p style={{display:"inline",backgroundColor: "Green", borderRadius: "25px",padding:"15px",margin:"5px"}}>Accept</p>
-                                        <p style={{display:"inline",backgroundColor: "Red", borderRadius: "25px",padding:"15px",margin:"5px"}}>Decline</p>
+                                        <p>{p.cartName}</p>
+                                        <div style={{ marginBottom: "5%" }}>
+                                            <div
+                                                onClick={() => {
+                                                    const shouldAdd = window.confirm('Confirm Accept')
+                                                    if (shouldAdd) {
+                                                        acceptCart(p)
+                                                    }
+                                                }}
+                                                style={{ display: "inline", backgroundColor: "Green", borderRadius: "25px", padding: "15px", margin: "5px" }}>Accept</div>
+
+                                            <div
+                                                onClick={() => {
+                                                    const shouldAdd = window.confirm('Confirm Decline')
+                                                        if (shouldAdd) {
+                                                            declineCart(p)
+                                                        }
+                                                }}
+                                                style={{ display: "inline", backgroundColor: "Red", borderRadius: "25px", padding: "15px", margin: "5px" }}>Decline</div>
                                         </div>
                                     </div>
                                 )
@@ -191,6 +214,24 @@ const ProductsPage = () => {
                 </div>
             </div>
 
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+                <h2 style={{ textAlign: "center" }}>Orders</h2>
+                <div className="container">
+                    {
+                        cart.map(p => {
+                            if ((p.cartUser === (user ? user.username : " ")) && (p.status === "Accepted")) {
+                                return (
+                                    <div className="item" key={p._id}>
+                                        <p>{p.cartName}</p>
+                                        <div style={{ marginBottom: "5%" }}>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })
+                    }
+                </div>
+            </div>
 
         </div>
     )
