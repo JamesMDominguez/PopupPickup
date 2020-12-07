@@ -71,8 +71,10 @@ const Home = () => {
       <div className="container2">
         <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px" }} alt="marker" />
         <div className="overlay" 
-            onClick={ ()=>
+            onClick={ ()=>{
               setCurrentEvent(thisEventName)
+              setCurrentVendor('')
+            }
            }
            >{thisEventName}</div>
       </div>
