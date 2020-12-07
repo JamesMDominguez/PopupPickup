@@ -8,10 +8,15 @@ const defaultValues = {
     price: "",
     quantity: "",
     vendor: "",
-    url:""
+    url: ""
 }
 
-
+const defaultValuesCart = {
+    cartName: '',
+    cartPrice: 0,
+    cartUser: '',
+    status: ''
+  }
 
 const ProductsPage = () => {
 
@@ -19,6 +24,9 @@ const ProductsPage = () => {
     const [products, setProducts] = useState([])
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [inputs, setInputs] = useState(defaultValues)
+
+    const [cart, setCart] = useState([])
+    const [inputsCart, setInputsCart] = useState(defaultValuesCart)
 
     const Item = ({ product, ...props }) =>
         (
@@ -32,12 +40,15 @@ const ProductsPage = () => {
                 }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
                     x
                 </div>
-                <img style={{ width: "80%",borderRadius:"25px",paddingTop:"10px" }} src={product.url} alt="Untitled-Artwork" border="0" />
+                <img style={{ width: "80%", borderRadius: "25px", paddingTop: "10px" }} src={product.url} alt="Untitled-Artwork" border="0" />
                 <p>{product.name} ${product.price}</p>
             </div>
         )
 
-
+    const getCart = async () => {
+        const res = await axios.get("/api/cart")
+        setCart(res.data)
+    }
 
     const getProducts = async () => {
         const res = await axios.get("/api/products")
@@ -67,6 +78,7 @@ const ProductsPage = () => {
     }
 
     useEffect(() => { getProducts() }, [])
+    useEffect(() => { getCart() }, [])
 
     return (
         <div>
@@ -76,21 +88,22 @@ const ProductsPage = () => {
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
-            <div className="container">
-                {
-                    products.map(p => {
-                        if (p.vendor === (user ? user.username:" ")) {
-                            return <Item
-                                product={p}
-                                onClick={() => {
-                                    setSelectedProduct(p._id)
-                                    setInputs(p)
-                                }}
-                            />
-                        }
-                    })
-                }
-            </div>
+                <div className="container">
+                    {
+                        products.map(p => {
+                            if (p.vendor === (user ? user.username : " ")) {
+                                return <Item
+                                    product={p}
+                                    key={p._id}
+                                    onClick={() => {
+                                        setSelectedProduct(p._id)
+                                        setInputs(p)
+                                    }}
+                                />
+                            }
+                        })
+                    }
+                </div>
             </div>
 
 
@@ -98,7 +111,7 @@ const ProductsPage = () => {
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
-                    >
+                >
 
                     <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
 
@@ -152,9 +165,30 @@ const ProductsPage = () => {
                         type="submit"
                         value="Submit"
                         className="w3-btn"
-                        style={{ borderRadius: "25px", width: "100%", backgroundColor:"#AC3C40" }}
+                        style={{ borderRadius: "25px", width: "100%", backgroundColor: "#AC3C40" }}
                     />
                 </form>
+            </div>
+
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+            <h2 style={{ textAlign: "center" }}>Requests</h2>
+                <div className="container">
+                    {
+                        cart.map(p => {
+                            if ((p.cartUser === (user ? user.username : " ")) && (p.status === "pending...")) {
+                                return (
+                                    <div className="item" key={p._id}>
+                                    <p>{p.cartName}</p>
+                                        <div style={{marginBottom:"5%"}}>
+                                        <p style={{display:"inline",backgroundColor: "Green", borderRadius: "25px",padding:"15px",margin:"5px"}}>Accept</p>
+                                        <p style={{display:"inline",backgroundColor: "Red", borderRadius: "25px",padding:"15px",margin:"5px"}}>Decline</p>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })
+                    }
+                </div>
             </div>
 
 

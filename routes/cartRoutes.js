@@ -11,9 +11,9 @@ module.exports = (app) => {
   });
 
   app.post("/api/cart/", async (req, res) => {
-    const { cartName, cartPrice, cartUser } = req.body;
+    const { cartName, cartPrice, cartUser,status } = req.body;
     await Cart.create({
-        cartName, cartPrice, cartUser
+        cartName, cartPrice, cartUser, status
     });
 
     const allCarts = await Cart.find();
@@ -22,10 +22,10 @@ module.exports = (app) => {
 
   app.put("/api/cart/:cartId", async (req, res) => {
     const { cartId } = req.params;
-    const {cartName, cartPrice, cartUser } = req.body;
+    const {cartName, cartPrice, cartUser, status } = req.body;
 
     await Cart.update({ _id: cartId }, {
-        cartName, cartPrice, cartUser
+        cartName, cartPrice, cartUser, status
     });
 
     const allCarts = await Cart.find();
