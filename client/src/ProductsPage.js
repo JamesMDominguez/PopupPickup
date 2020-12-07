@@ -195,7 +195,7 @@ const ProductsPage = () => {
                                                         acceptCart(p)
                                                     }
                                                 }}
-                                                style={{ display: "inline", backgroundColor: "Green", borderRadius: "25px", padding: "15px", margin: "5px" }}>Accept</div>
+                                                style={{ display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "15px", margin: "5px" }}>Accept</div>
 
                                             <div
                                                 onClick={() => {
@@ -204,7 +204,7 @@ const ProductsPage = () => {
                                                             declineCart(p)
                                                         }
                                                 }}
-                                                style={{ display: "inline", backgroundColor: "Red", borderRadius: "25px", padding: "15px", margin: "5px" }}>Decline</div>
+                                                style={{ display: "inline", backgroundColor: "#AC3C40", borderRadius: "25px", padding: "15px", margin: "5px" }}>Decline</div>
                                         </div>
                                     </div>
                                 )

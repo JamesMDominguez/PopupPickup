@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import './App.css';
 import './css/homePage.css';
-import GoogleMap from "./googleMap";
+import GoogleMapReact from 'google-map-react';
 import axios from "axios";
 import { useAuthState } from './AuthProvider'
 
@@ -10,6 +10,13 @@ const defaultValuesCart = {
   cartPrice: 0,
   cartUser: '',
   status: ''
+}
+const defaultProps = {
+  center: {
+    lat: 37.7749,
+    lng: -122.4194
+  },
+  zoom: 11
 }
 
 
@@ -59,7 +66,18 @@ const Home = () => {
     const res = await axios.get("/api/eventsVendor")
     setEventVendors(res.data)
   }
-
+  const Marker = ({ thisEventName }) => {
+    return (
+      <div className="container2">
+        <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" style={{ height: '50px', width: "50px" }} alt="marker" />
+        <div className="overlay" 
+            onClick={ ()=>
+              setCurrentEvent(thisEventName)
+           }
+           >{thisEventName}</div>
+      </div>
+    )
+  }
 
   useEffect(() => { getEvents() }, [])
   useEffect(() => { getEventVendors() }, [])
@@ -68,7 +86,25 @@ const Home = () => {
 
   return (
     <div>
-      <GoogleMap />
+      <div style={{ height: '500px', width: '100%', marginBottom: "50px" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+        >
+          {events.map(p => {
+            return (
+              <Marker
+                key={p.eventName}
+                thisEventName={p.eventName}
+                lat={p.longitude}
+                lng={p.latitude}
+              />
+            )
+          })}
+
+        </GoogleMapReact>
+      </div>
 
       <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
         <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Events in the Area</h2>
@@ -145,7 +181,7 @@ const Home = () => {
         <div className="container">
           {cart.map((p) => {
             if ((p.cartUser === (user ? user.username : " ")) && (p.status === "")) {
-              return(
+              return (
                 <div className="item" key={p._id}>
                   <div onClick={() => {
                     const shouldDelete = window.confirm('delete event')
@@ -164,14 +200,14 @@ const Home = () => {
           }
         </div>
         <div className="item" style={{ backgroundColor: "#AC3C40" }}
-        onClick={(event) => {
-          const shouldAdd = window.confirm('Confirm Order')
-          cart.forEach((p) => {
-            if (user && shouldAdd && (p.cartUser === user.username)&& (p.status === "")) {
-              editCart(p)
-            }
-          })
-        }}>CheckOut</div>
+          onClick={(event) => {
+            const shouldAdd = window.confirm('Confirm Order')
+            cart.forEach((p) => {
+              if (user && shouldAdd && (p.cartUser === user.username) && (p.status === "")) {
+                editCart(p)
+              }
+            })
+          }}>CheckOut</div>
       </div>
 
 
