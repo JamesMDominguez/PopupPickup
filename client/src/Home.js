@@ -9,7 +9,8 @@ const defaultValuesCart = {
   cartName: '',
   cartPrice: 0,
   cartUser: '',
-  status: ''
+  status: '',
+  cartVendor:''
 }
 const defaultProps = {
   center: {
@@ -33,7 +34,7 @@ const Home = () => {
 
   const [cart, setCart] = useState([])
   const [inputsCart, setInputsCart] = useState(defaultValuesCart)
-
+  let total = 0
   const { user } = useAuthState()
 
 
@@ -42,7 +43,7 @@ const Home = () => {
     setCart(res.data)
   }
   const editCart = async (p) => {
-    const res = await axios.put(`/api/cart/${p._id}`, { status: "pending...", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName })
+    const res = await axios.put(`/api/cart/${p._id}`, { status: "pending...", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName,cartVendor: p.cartVendor })
     setCart(res.data)
   }
   const addToCart = async (event) => { //handle submit
@@ -87,7 +88,7 @@ const Home = () => {
   useEffect(() => { getCart() }, [])
 
   return (
-    <div>
+    <div>      
       <div style={{ height: '500px', width: '100%', marginBottom: "50px" }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyDGYlDVAd8hRSEoIhWZEkaWJDzxKZfHuq4" }}
@@ -148,7 +149,7 @@ const Home = () => {
                 <div className="item" key={p.name} onClick={() => {
                   setOverlayDisplay("block")
                   setOverlayContent(p.name + " $" + p.price)
-                  setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " " })
+                  setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " ", cartVendor: p.vendor })
                 }}>
                   <img style={{ width: "80%", borderRadius: "25px", paddingTop: "10px" }} src={p.url} alt="Untitled-Artwork" border="0" />
                   <p>{p.name + " $" + p.price}</p>
@@ -183,6 +184,7 @@ const Home = () => {
         <div className="container">
           {cart.map((p) => {
             if ((p.cartUser === (user ? user.username : " ")) && (p.status === "")) {
+              total=total+p.cartPrice
               return (
                 <div className="item" key={p._id}>
                   <div onClick={() => {
@@ -200,6 +202,9 @@ const Home = () => {
           }
           )
           }
+        </div>
+        <div className="item" style={{ hight:"30px",marginBottom:"10px"}}>
+        Total: {total}
         </div>
         <div className="item" style={{ backgroundColor: "#AC3C40" }}
           onClick={(event) => {

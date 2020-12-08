@@ -14,6 +14,9 @@ const cartSchema = new Schema({
     status:{
         type: String
     },
+    cartVendor: {
+        type: String
+    },
     date_created: {
         type: Date,
         default: Date.now,

@@ -11,12 +11,7 @@ const defaultValues = {
     url: ""
 }
 
-const defaultValuesCart = {
-    cartName: '',
-    cartPrice: 0,
-    cartUser: '',
-    status: ''
-}
+
 
 const ProductsPage = () => {
 
@@ -26,7 +21,6 @@ const ProductsPage = () => {
     const [inputs, setInputs] = useState(defaultValues)
 
     const [cart, setCart] = useState([])
-    const [inputsCart, setInputsCart] = useState(defaultValuesCart)
 
     const Item = ({ product, ...props }) =>
         (
@@ -61,12 +55,12 @@ const ProductsPage = () => {
     }
 
     const acceptCart = async (p) => {
-        const res = await axios.put(`/api/cart/${p._id}`, { status: "Accepted", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName })
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Accepted", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName, cartVendor: p.cartVendor })
         setCart(res.data)
     }
 
     const declineCart = async (p) => {
-        const res = await axios.put(`/api/cart/${p._id}`, { status: "Denied", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName })
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Denied", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName , cartVendor: p.cartVendor})
         setCart(res.data)
     }
 
@@ -183,7 +177,7 @@ const ProductsPage = () => {
                 <div className="container">
                     {
                         cart.map(p => {
-                            if ((p.cartUser === (user ? user.username : " ")) && (p.status === "pending...")) {
+                            if (p.cartVendor === (user ? user.username : " ") && p.status === "pending...") {
                                 return (
                                     <div className="item" key={p._id}>
                                         <p>{p.cartName}</p>
@@ -219,7 +213,7 @@ const ProductsPage = () => {
                 <div className="container">
                     {
                         cart.map(p => {
-                            if ((p.cartUser === (user ? user.username : " ")) && (p.status === "Accepted")) {
+                            if ((p.cartVendor === (user ? user.username : " ")) && (p.status === "Accepted")) {
                                 return (
                                     <div className="item" key={p._id}>
                                         <p>{p.cartName}</p>
