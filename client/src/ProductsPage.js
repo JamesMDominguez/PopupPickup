@@ -8,7 +8,8 @@ const defaultValues = {
     price: "",
     quantity: "",
     vendor: "",
-    url: ""
+    url: "",
+    _id:""
 }
 
 
@@ -24,18 +25,7 @@ const ProductsPage = () => {
 
     const Item = ({ product, ...props }) =>
         (
-            <div className="item"  style={{margin:"10px",backgroundColor:"white"}} {...props}>
-                <div id="overlay2" onClick={(event) => {
-                    event.stopPropagation()
-                    const shouldDelete = window.confirm('delete product')
-                    if (shouldDelete) {
-                        handleDelete(product._id, event)
-                    }
-                }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
-                    <div id="text">
-                    x
-                    </div>
-                </div>
+            <div className="item2" {...props}>
                 <img style={{ width: "100%", borderRadius:" 20px 20px 0px 0px"}} src={product.url} alt="Untitled-Artwork" border="0" />
                 <p>{product.name} ${product.price}</p>
             </div>
@@ -111,16 +101,27 @@ const ProductsPage = () => {
             </div>
 
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+            <div className="item2" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
                 >
-
-                    <h2 style={{ textAlign: "center" }}>{selectedProduct ? "Edit Product" : "New Product"}</h2>
-
-                    <br />
-
+                    <div                
+                    onClick={(event) => {
+                    event.stopPropagation()
+                    const shouldDelete = window.confirm('delete product')
+                    if (shouldDelete) {
+                        handleDelete(inputs._id, event)
+                    }}} 
+                    style={{ backgroundColor: "#AC3C40", borderRadius: "25px 0px 10px",padding:"15px", display:selectedProduct ? "inline-block" : "none"}}>Delete</div>
+                    <h2 style={{ display: "inline",paddingLeft:"20px"}}>
+                        {selectedProduct ? "Edit Product" : "New Product"}
+                    </h2>
+                    <div style={{ float:"right",backgroundColor: "#2e8b57", padding:"15px",marginBottom:"10px", borderRadius: "0px 25px 0px", display:selectedProduct ? "inline-block" : "none"}}
+                        onClick={()=>{
+                            setSelectedProduct(null)
+                            setInputs(defaultValues)
+                            }}>New</div>
                     <input
                         type="text"
                         placeholder="Name"
