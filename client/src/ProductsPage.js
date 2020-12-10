@@ -114,7 +114,7 @@ const ProductsPage = () => {
                         handleDelete(inputs._id, event)
                     }}} 
                     style={{ backgroundColor: "#AC3C40", borderRadius: "25px 0px 10px",padding:"15px", display:selectedProduct ? "inline-block" : "none"}}>Delete</div>
-                    <h2 style={{ display: "inline",paddingLeft:"20px"}}>
+                    <h2 style={{ display: "inline",paddingLeft:"10px"}}>
                         {selectedProduct ? "Edit Product" : "New Product"}
                     </h2>
                     <div style={{ float:"right",backgroundColor: "#2e8b57", padding:"15px",marginBottom:"10px", borderRadius: "0px 25px 0px", display:selectedProduct ? "inline-block" : "none"}}
