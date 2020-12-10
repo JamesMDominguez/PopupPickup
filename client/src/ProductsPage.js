@@ -24,17 +24,19 @@ const ProductsPage = () => {
 
     const Item = ({ product, ...props }) =>
         (
-            <div className="item" {...props}>
-                <div onClick={(event) => {
+            <div className="item"  style={{margin:"10px",backgroundColor:"white"}} {...props}>
+                <div id="overlay2" onClick={(event) => {
                     event.stopPropagation()
                     const shouldDelete = window.confirm('delete product')
                     if (shouldDelete) {
                         handleDelete(product._id, event)
                     }
                 }} style={{ cursor: 'pointer', fontSize: "20px", float: "left" }}>
+                    <div id="text">
                     x
+                    </div>
                 </div>
-                <img style={{ width: "80%", borderRadius: "25px", paddingTop: "10px" }} src={product.url} alt="Untitled-Artwork" border="0" />
+                <img style={{ width: "100%", borderRadius:" 20px 20px 0px 0px"}} src={product.url} alt="Untitled-Artwork" border="0" />
                 <p>{product.name} ${product.price}</p>
             </div>
         )

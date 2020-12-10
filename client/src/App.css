@@ -25,12 +25,12 @@
   grid-auto-columns: minmax(15rem, auto);
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   grid-gap: 1rem;
-  padding: 5%;
-}
-.item {
-  background: rgb(103, 173, 253);
-  border-radius: 20px;
   padding: 10px;
+}
+
+.item {
+  background: rgb(103, 173, 253,0.5);
+  border-radius: 20px;
   color:rgb(0, 0, 0);
   font-size: 20px;
   text-align: center;

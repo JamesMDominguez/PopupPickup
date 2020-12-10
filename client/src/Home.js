@@ -37,6 +37,11 @@ const Home = () => {
   let total = 0
   const { user } = useAuthState()
 
+  const [eventDisplay, setEventDisplay] = useState("block")
+  const [vendorDisplay, setVendorDisplay] = useState("none")
+  const [productDisplay, setProductDisplay] = useState("none")
+
+
 
   const handleDelete = async (cartId) => {
     const res = await axios.delete(`/api/cart/${cartId}`)
@@ -109,14 +114,15 @@ const Home = () => {
         </GoogleMapReact>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:eventDisplay}}>
         <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Events in the Area</h2>
         <div className="container">
           {events.map(p => {
             return (
               <div className="item" key={p._id} onClick={() => {
                 setCurrentEvent(p.eventName)
-                setCurrentVendor('')
+                setEventDisplay('none')
+                setVendorDisplay('block')
               }}>
                 <p>{p.eventName}</p>
               </div>
@@ -125,13 +131,23 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
-        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>{currentEvent} Vendors</h2>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:vendorDisplay}}>
+        <div style={{ color: "black", textAlign: "left", paddingLeft: "5%",marginTop: "2%"  }}>
+        <h2 style={{display:"inline",padding:"10px"}} className="item" onClick={()=>{ 
+          setEventDisplay('block')
+          setVendorDisplay('none')
+          }}>{currentEvent}</h2>
+        <h2 style={{display:"inline"}}> Vendors</h2>
+        </div>
         <div className="container">
           {eventVendors.map(p => {
             if (currentEvent === p.eventName) {
               return (
-                <div className="item" key={p._id} onClick={() => { setCurrentVendor(p.vendorName) }}>
+                <div className="item" key={p._id} onClick={() => { 
+                  setCurrentVendor(p.vendorName)
+                  setVendorDisplay('none')
+                  setProductDisplay('block')
+                   }}>
                   <p>{p.vendorName}</p>
                 </div>
               )
@@ -140,19 +156,26 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
-        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>{currentVendor} Products</h2>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%",display:productDisplay}}>
+        <div style={{ color: "black", textAlign: "left", paddingLeft: "5%",marginTop: "2%"  }}>
+        <h2 style={{display:"inline",padding:"10px"}} className="item" onClick={()=>{
+            setProductDisplay('none')
+            setVendorDisplay('block')
+
+        }}>{currentVendor}</h2>
+        <h2 style={{display:"inline"}}> Products</h2>
+        </div>
         <div className="container">
           {products.map(p => {
             if (currentVendor === p.vendor) {
               return (
-                <div className="item" key={p.name} onClick={() => {
+                <div className="item" key={p.name} style={{margin:"10px",backgroundColor:"white"}} onClick={() => {
                   setOverlayDisplay("block")
                   setOverlayContent(p.name + " $" + p.price)
                   setInputsCart({ ...inputsCart, cartName: p.name, cartPrice: p.price, cartUser: user ? user.username : " ", cartVendor: p.vendor })
                 }}>
-                  <img style={{ width: "80%", borderRadius: "25px", paddingTop: "10px" }} src={p.url} alt="Untitled-Artwork" border="0" />
-                  <p>{p.name + " $" + p.price}</p>
+                  <img style={{ width: "100%", borderRadius:" 20px 20px 0px 0px"}} src={p.url} alt="Untitled-Artwork" border="0" />
+                  <p style={{fontSize:"15px"}}>{p.name}</p>
                   <div id="overlay2" onClick={(event) => {
                     event.stopPropagation()
                     setOverlayDisplay("none")
@@ -164,7 +187,7 @@ const Home = () => {
                         style={{
                           width: "100%",
                           borderRadius: "10px",
-                          backgroundColor: "green"
+                          backgroundColor: "rgb(103, 173, 253,0.5)"
                         }}
                         onClick={(event) => {
                           addToCart(event)
@@ -204,7 +227,7 @@ const Home = () => {
           }
         </div>
         <div className="item" style={{ hight:"30px",marginBottom:"10px"}}>
-        Total: {total}
+        Total: ${total}
         </div>
         <div className="item" style={{ backgroundColor: "#AC3C40" }}
           onClick={(event) => {
