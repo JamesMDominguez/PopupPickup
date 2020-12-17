@@ -56,6 +56,11 @@ const ProductsPage = () => {
         setCart(res.data)
     }
 
+    const confirmCart = async (p) => {
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Confirm", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName , cartVendor: p.cartVendor})
+        setCart(res.data)
+    }
+
     const handleSubmit = async (event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -81,7 +86,7 @@ const ProductsPage = () => {
 
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
                 <div className="container">
                     {
                         products.map(p => {
@@ -101,7 +106,7 @@ const ProductsPage = () => {
             </div>
 
 
-            <div className="item2" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+            <div className="item2" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%"}}>
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
@@ -122,6 +127,8 @@ const ProductsPage = () => {
                             setSelectedProduct(null)
                             setInputs(defaultValues)
                             }}>New</div>
+             <div style={{padding:"10px"}}>
+
                     <input
                         type="text"
                         placeholder="Name"
@@ -172,10 +179,13 @@ const ProductsPage = () => {
                         className="w3-btn"
                         style={{ borderRadius: "25px", width: "100%", backgroundColor: "#AC3C40" }}
                     />
+               </div>
+
                 </form>
+
             </div>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding:"10px" }}>
                 <h2 style={{ textAlign: "center" }}>Requests</h2>
                 <div className="container">
                     {
@@ -184,7 +194,7 @@ const ProductsPage = () => {
                                 return (
                                     <div className="item" key={p._id}>
                                         <p>{p.cartName}</p>
-                                        <div style={{ marginBottom: "5%" }}>
+                                        <div style={{ padding:'15px' }}>
                                             <div
                                                 onClick={() => {
                                                     const shouldAdd = window.confirm('Confirm Accept')
@@ -192,7 +202,7 @@ const ProductsPage = () => {
                                                         acceptCart(p)
                                                     }
                                                 }}
-                                                style={{ display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "15px", margin: "5px" }}>Accept</div>
+                                                style={{ display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}>Accept</div>
 
                                             <div
                                                 onClick={() => {
@@ -201,7 +211,7 @@ const ProductsPage = () => {
                                                             declineCart(p)
                                                         }
                                                 }}
-                                                style={{ display: "inline", backgroundColor: "#AC3C40", borderRadius: "25px", padding: "15px", margin: "5px" }}>Decline</div>
+                                                style={{ display: "inline", backgroundColor: "#AC3C40", borderRadius: "25px", padding: "10px", margin: "5px" }}>Decline</div>
                                         </div>
                                     </div>
                                 )
@@ -211,7 +221,7 @@ const ProductsPage = () => {
                 </div>
             </div>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3 %",padding:"10px" }}>
                 <h2 style={{ textAlign: "center" }}>Orders</h2>
                 <div className="container">
                     {
@@ -222,6 +232,15 @@ const ProductsPage = () => {
                                         <p>{p.cartName}</p>
                                         <div style={{ marginBottom: "5%" }}>
                                         </div>
+
+                                        <div
+                                                onClick={() => {
+                                                    const shouldAdd = window.confirm('Confirm Decline')
+                                                        if (shouldAdd) {
+                                                            confirmCart(p)
+                                                        }
+                                                }}
+                                                style={{ display: "inline", backgroundColor: "#339966", borderRadius: "25px", padding: "10px", margin: "5px" }}>Confirm</div>
                                     </div>
                                 )
                             }

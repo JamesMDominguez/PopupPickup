@@ -114,7 +114,7 @@ const Home = () => {
         </GoogleMapReact>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:eventDisplay}}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:eventDisplay,padding:"5px"}}>
         <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Events in the Area</h2>
         <div className="container">
           {events.map(p => {
@@ -131,7 +131,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:vendorDisplay}}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%", display:vendorDisplay,padding:"5px"}}>
         <div style={{ color: "black", textAlign: "left", paddingLeft: "5%",marginTop: "2%"  }}>
         <h2 style={{display:"inline",padding:"10px"}} className="item" onClick={()=>{ 
           setEventDisplay('block')
@@ -202,8 +202,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
-        <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Cart</h2>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%",padding:"10px" }}>
+        <h2 style={{ color: "black", textAlign: "left"}}>Cart</h2>
         <div className="container">
           {cart.map((p) => {
             if ((p.cartUser === (user ? user.username : " ")) && (p.status === "")) {

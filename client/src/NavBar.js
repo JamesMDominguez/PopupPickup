@@ -3,6 +3,7 @@ import LoginPage from './LoginPage';
 import { useAuthState } from './AuthProvider'
 import Home from './Home';
 import ProductsPage from './ProductsPage';
+import Reports from './Reports';
 import Event from './event';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
@@ -50,6 +51,8 @@ const NavBar = () => {
               alert("login to use")
           }}}
           className="w3-bar-item w3-button w3-hover-opacity">Events</Link>
+          <Link to="/Reports/" className="w3-bar-item w3-button w3-hover-opacity">Reports</Link>
+
         </div>
 
         <div className="NavBar">
@@ -73,6 +76,7 @@ const NavBar = () => {
         <Route path="/LoginPage" component={LoginPage} />
         <Route path="/ProductsPage" component={ProductsPage} />
         <Route path="/Event" component={Event} />
+        <Route path="/Reports" component={Reports} />
       </Router>
     </div>
   )
