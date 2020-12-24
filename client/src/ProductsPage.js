@@ -221,19 +221,17 @@ const ProductsPage = () => {
                 </div>
             </div>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3 %",padding:"10px" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
                 <h2 style={{ textAlign: "center" }}>Orders</h2>
                 <div className="container">
                     {
                         cart.map(p => {
                             if ((p.cartVendor === (user ? user.username : " ")) && (p.status === "Accepted")) {
                                 return (
-                                    <div className="item" key={p._id}>
+                                    <div className="item" key={p._id} style={{padding:"15px"}}>
                                         <p>{p.cartName}</p>
-                                        <div style={{ marginBottom: "5%" }}>
-                                        </div>
 
-                                        <div
+                                        <div 
                                                 onClick={() => {
                                                     const shouldAdd = window.confirm('Confirm Decline')
                                                         if (shouldAdd) {

@@ -20,6 +20,7 @@ require("./models/vendor");
 require("./models/user");
 require("./models/cart");
 require("./models/eventVendor");
+require("./models/loadList");
 
 
 // Middleware start
@@ -47,6 +48,8 @@ require("./routes/productsRoutes")(app);
 require("./routes/authRoutes")(app);
 require("./routes/cartRoutes")(app);
 require("./routes/eventVendorRoutes")(app);
+require("./routes/loadListRoutes")(app);
+
 
 
 
