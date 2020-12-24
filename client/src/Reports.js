@@ -28,6 +28,10 @@ const Reports = () => {
     const [ displayReport, setDisplayReport] = useState('none')
     const [ newReportDisplay, setNewReportDisplay] = useState('none')
 
+    const [ reportProducts, setReportProducts] = useState([])
+
+    const [ currentQuantity, setCurrentQuantity] = useState(0)
+    
     const [ reportLocation, setReportLocation] = useState('')
 
 
@@ -111,20 +115,23 @@ const Reports = () => {
                 <div id="overlay2" style={{display:newReportDisplay}}>
                     <div id="text">
                         <p>{date}</p>
+                        <p>Select Location</p>
+
                         <div>{eventVendors.map((p)=>{
                         if(user){
                         if(p.vendorName==user.username){
                             return(
-                            <div className="item" style={{margin:"10px"}}>{p.eventName}</div>
+                            <div className="item" style={{margin:"10px"}}
+                            onClick={()=>{
+                                setReportLocation(p.eventName)
+                                setDisplayReport("block")
+                                setNewReportDisplay("none")
+                            }}
+                            >{p.eventName}</div>
                             )
                         }
                     }
                     })}</div>
-                    <div style={{display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px"}}
-                    onClick={()=>{
-                        setDisplayReport("block")
-                        setNewReportDisplay("none")
-                    }}>X</div>
                     </div>
                 </div>
 
@@ -154,14 +161,21 @@ const Reports = () => {
                                                 marginBottom: "20px",
                                                 textAlign:"center"
                                             }}
+                                            onChange={(e) => setCurrentQuantity(e.target.value )}
                                             type="number"
+                                            value={currentQuantity}
                                             />
                                         </div>
                                         <div style={{ display: "inline", backgroundColor: "gray", borderRadius: "25px", padding: "10px", margin: "5px" }}
                                         onClick={()=>{
                                         setOverlayDisplay('none')
                                         }}>Close</div>
-                                        <div style={{display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px"}}>+</div>
+                                        <div style={{display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px"}}
+                                        onClick={()=>{
+                                            reportProducts.push(overlayContent+" "+currentQuantity)
+                                            setCurrentQuantity(0)
+                                        }}                                        
+                                        >+</div>
                                       </div>
                                      </div>
                                     </>
@@ -171,6 +185,15 @@ const Reports = () => {
                     })}
                 </div>
               </div>
+
+              <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px"}}>
+                  {date+" "+reportLocation}
+                <div className="container">{reportProducts.map((p)=>{
+                    return(
+                    <div className="item">{p}</div>
+                    )
+                })}</div>
+            </div>
             </div>
 
         </div>
