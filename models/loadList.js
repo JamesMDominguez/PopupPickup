@@ -5,10 +5,16 @@ const loadListSchema = new Schema({
     market: {
         type: String
     },
-    loadListName: {
-        type: Array
+    name: {
+        type: String
     },
-    loadListVendor: {
+    price: {
+        type: String
+    },
+    vendor: {
+        type: String
+    },
+    quantity:{
         type: String
     },
     date_created: {

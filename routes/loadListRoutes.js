@@ -11,9 +11,9 @@ module.exports = (app) => {
   });
 
   app.post("/api/loadList/", async (req, res) => {
-    const { loadListName, loadListPrice, loadListUser,status,loadListVendor } = req.body;
+    const {market,name,price,vendor,quantity,date_created } = req.body;
     await LoadList.create({
-        loadListName, loadListPrice, loadListUser, status, loadListVendor
+      market,name,price,vendor,quantity,date_created
     });
 
     const allLoadLists = await LoadList.find();
@@ -22,10 +22,10 @@ module.exports = (app) => {
 
   app.put("/api/loadList/:loadListId", async (req, res) => {
     const { loadListId } = req.params;
-    const {loadListName, loadListPrice, loadListUser, status,loadListVendor } = req.body;
+    const {market,name,price,vendor,quantity,date_created } = req.body;
 
     await LoadList.update({ _id: loadListId }, {
-        loadListName, loadListPrice, loadListUser, status, loadListVendor
+      market,name,price,vendor,quantity,date_created  
     });
 
     const allLoadLists = await LoadList.find();
