@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+var today = new Date();
+var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 const loadListSchema = new Schema({
     market: {
         type: String
@@ -18,8 +20,8 @@ const loadListSchema = new Schema({
         type: String
     },
     date_created: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        default: date,
     },
 });
 

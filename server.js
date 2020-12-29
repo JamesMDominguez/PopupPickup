@@ -21,6 +21,8 @@ require("./models/user");
 require("./models/cart");
 require("./models/eventVendor");
 require("./models/loadList");
+require("./models/reportKey");
+
 
 
 // Middleware start
@@ -49,6 +51,8 @@ require("./routes/authRoutes")(app);
 require("./routes/cartRoutes")(app);
 require("./routes/eventVendorRoutes")(app);
 require("./routes/loadListRoutes")(app);
+require("./routes/reportKeyRoutes")(app);
+
 
 
 

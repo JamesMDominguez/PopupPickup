@@ -19,6 +19,8 @@ const Reports = () => {
     const [products, setProducts] = useState([])
     const [loadList, setLoadList] = useState([])
     const [eventVendors, setEventVendors] = useState([])
+    const [reportKey, setReportKey] = useState([])
+
 
     const [inputs, setInputs] = useState(defaultValues)
 
@@ -48,6 +50,10 @@ const Reports = () => {
         const res = await axios.get("/api/loadList")
         setLoadList(res.data)
     }
+    const getReportKey = async () => {
+        const res = await axios.get("/api/reportKey")
+        setReportKey(res.data)
+    }
     const handleSubmit = async (event) => {
         console.log(inputs)
 
@@ -69,6 +75,8 @@ const Reports = () => {
     useEffect(() => { getCart() }, [])
     useEffect(() => { getProducts() }, [])
     useEffect(() => { getLoadLists() }, [])
+    useEffect(() => { getReportKey() }, [])
+
     useEffect(() => { getEventVendors() }, [])
 
 
@@ -192,8 +200,8 @@ const Reports = () => {
 
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                     {date + " " + reportLocation}
-                    <div className="container">{loadList.map((p) => {
-                        return (<div className="item">{p.vendor + " " + p.name}</div>)
+                    <div>{loadList.map((p) => {
+                        return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
                     })}</div>
                 </div>
             </div>
