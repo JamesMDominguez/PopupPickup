@@ -36,8 +36,8 @@ const Reports = () => {
     const [overlayDisplay, setOverlayDisplay] = useState('none')
     const [overlayContent, setOverlayContent] = useState('')
 
-    const [displayReport, setDisplayReport] = useState('none')
     const [newReportDisplay, setNewReportDisplay] = useState('none')
+    const [ReportDisplay, setReportDisplay] = useState('none')
 
 
     const [currentQuantity, setCurrentQuantity] = useState('')
@@ -100,17 +100,6 @@ const Reports = () => {
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Reports</h1>
 
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
-                <div className="container" style={{ padding: "10px" }}>
-                    <div className="item">
-                        <p>Load List</p>
-                    </div>
-                    <div className="item">
-                        <p>Sales</p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
                 Sales
     <div className="container" style={{ padding: "10px" }}>{cart.map((p) => {
                 if (user) {
@@ -169,7 +158,8 @@ const Reports = () => {
                                 }
                             }
                         })}</div>
-                        <div className="item" onClick={() => {
+                        <div className="item"  style={{backgroundColor: "#0063a0"}}
+                        onClick={() => {
                             let shouldAdd = true
                             reportKey.forEach((p) => {
                                 if ((p.date_created === ReportDate) && (p.market === reportLocation)) {
@@ -180,10 +170,13 @@ const Reports = () => {
                             if (shouldAdd) {
                                 handleSubmitKey()
                             }
-                            setDisplayReport("block")
                             setNewReportDisplay("none")
                         }
                         }>Confirm</div>
+                     <div className="item"  style={{backgroundColor: "#0063a0",marginTop:"10px"}}
+                     onClick={()=>{setNewReportDisplay("none")}}
+                     >Close</div>
+
                     </div>
                 </div>
 
@@ -193,6 +186,7 @@ const Reports = () => {
                         return (<div onClick={() => {
                             setSelectedReport(p.market)
                             setSelectedReportDate(p.date_created)
+                            setReportDisplay("block")
                             loadList.map((p) => {
                                 if (selectedReport === p.market) {
                                     return (<div className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>{p.date_created + " | " + p.vendor + " | " + p.name + " | Price:" + p.price + " | Quantity:" + p.quantity + " | Market:" + p.market}</div>)
@@ -206,8 +200,8 @@ const Reports = () => {
 
 
 
-                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
-                    {date + " " + selectedReport}
+                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px", display:ReportDisplay}}>
+                    {selectedReportDate + " " + selectedReport}
                     <div>{loadList.map((p) => {
                         if (selectedReport === p.market && selectedReportDate === p.date_created) {
                             return (
@@ -219,7 +213,7 @@ const Reports = () => {
                     })}
                     </div>
 
-                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px", display: displayReport }}>
+                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px"}}>
                         add products to report
                 <div className="container">
                             {products.map((p) => {
@@ -231,7 +225,7 @@ const Reports = () => {
                                                     onClick={() => {
                                                         setOverlayDisplay('block')
                                                         setOverlayContent(p.name)
-                                                        setInputs({ ...inputs, market: selectedReport, name: p.name, price: "0", vendor: (user ? user.username : " "), date_created: selectedReportDate })
+                                                        setInputs({ ...inputs, market: selectedReport, name: p.name, price: p.price, vendor: (user ? user.username : " "), date_created: selectedReportDate })
 
                                                     }}>{p.name}</div>
 
@@ -274,11 +268,15 @@ const Reports = () => {
                             })}
                         </div>
                     </div>
+                    <div style={{ backgroundColor: "#0063a0", borderRadius: "25px", padding: "10px", margin: "5px" }}>Download CSV</div>
+                    <div style={{ backgroundColor: "#0073a0", borderRadius: "25px", padding: "5px", margin: "5px" }}
+                     onClick={()=>{
+                        setReportDisplay("none")
+
+                      }}
+                     >Close</div>
                 </div>
             </div>
-
-
-
         </div>
     )
 }
