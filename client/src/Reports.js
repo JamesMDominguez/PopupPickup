@@ -10,6 +10,12 @@ const defaultValues = {
     price: "",
     vendor: "",
     quantity:"",
+    date_created:"",
+}
+
+const defaultKey = {
+    market: "",
+    vendor: "",
 }
 
 const Reports = () => {
@@ -23,6 +29,8 @@ const Reports = () => {
 
 
     const [inputs, setInputs] = useState(defaultValues)
+    const [inputsKey, setInputsKey] = useState(defaultKey)
+
 
     const [overlayDisplay, setOverlayDisplay] = useState('none')
     const [overlayContent, setOverlayContent] = useState('')
@@ -34,6 +42,8 @@ const Reports = () => {
     const [currentQuantity, setCurrentQuantity] = useState('')
 
     const [reportLocation, setReportLocation] = useState('')
+    const [selectedReport, setSelectedReport] = useState('')
+    const [selectedReportDate, setSelectedReportDate] = useState('')
 
 
 
@@ -55,13 +65,17 @@ const Reports = () => {
         setReportKey(res.data)
     }
     const handleSubmit = async (event) => {
-        console.log(inputs)
-
         const res = await axios.post("/api/loadList", inputs)
         setLoadList(res.data)
         setInputs(defaultValues)
         setCurrentQuantity(0)
 
+    }
+
+    const handleSubmitKey = async (event) => {
+        const res = await axios.post("/api/reportKey", inputsKey)
+        setReportKey(res.data)
+        setInputsKey(defaultKey)
     }
     const getEventVendors = async () => {
         const res = await axios.get("/api/eventsVendor")
@@ -71,12 +85,12 @@ const Reports = () => {
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     let salesTotal = 0
+    console.log(date)
 
     useEffect(() => { getCart() }, [])
     useEffect(() => { getProducts() }, [])
     useEffect(() => { getLoadLists() }, [])
     useEffect(() => { getReportKey() }, [])
-
     useEffect(() => { getEventVendors() }, [])
 
 
@@ -126,20 +140,51 @@ const Reports = () => {
 
                         <div>{eventVendors.map((p) => {
                             if (user) {
-                                if (p.vendorName == user.username) {
+                                if (p.vendorName === user.username) {
                                     return (
                                         <div className="item" style={{ margin: "10px" }}
                                             onClick={() => {
                                                 setReportLocation(p.eventName)
-                                                setDisplayReport("block")
-                                                setNewReportDisplay("none")
+                                                setInputsKey({ ...inputsKey, market: p.eventName, vendor: (user ? user.username : " ")})
                                             }}
                                         >{p.eventName}</div>
                                     )
                                 }
                             }
                         })}</div>
+                        <div className="item" onClick={()=>{
+                            let shouldAdd=true
+                            reportKey.forEach((p)=>{
+                                if((p.date_created===date)&&(p.market===reportLocation)){
+                                    shouldAdd=false
+                                    alert("report already exists")
+                                }
+                            }) 
+                            if(shouldAdd){
+                            handleSubmitKey()
+                            }
+                            setDisplayReport("block")
+                            setNewReportDisplay("none")
+                        }
+                    }>Confirm</div>
                     </div>
+                </div>
+
+
+                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
+                    <div>{reportKey.map((p) => {
+                        return (<div onClick={()=>{
+                                setSelectedReport(p.market)
+                                setSelectedReportDate(p.date_created)
+                            loadList.map((p)=>{
+                                if(selectedReport===p.market){
+                                return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Price:"+p.price+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
+                              }
+                            })
+                          
+                        }}
+                            className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{ p.market+" | "+p.date_created}</div>)
+                    })}</div>
                 </div>
 
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px", display: displayReport }}>
@@ -147,14 +192,14 @@ const Reports = () => {
                 <div className="container">
                         {products.map((p) => {
                             if (user) {
-                                if (p.vendor == user.username) {
+                                if (p.vendor === user.username) {
                                     return (
                                         <>
                                             <div className="item" style={{ padding: "5px" }}
                                                 onClick={() => {
                                                     setOverlayDisplay('block')
                                                     setOverlayContent(p.name)
-                                                    setInputs({ ...inputs, market: reportLocation, name: p.name, price: "0", vendor: (user ? user.username : " ")})
+                                                    setInputs({ ...inputs, market: selectedReport, name: p.name, price: "0", vendor: (user ? user.username : " "),date_created:selectedReportDate})
 
                                                 }}>{p.name}</div>
 
@@ -199,10 +244,13 @@ const Reports = () => {
                 </div>
 
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
-                    {date + " " + reportLocation}
+                    {date + " " + selectedReport}
                     <div>{loadList.map((p) => {
-                        return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
+                        if(selectedReport===p.market&&selectedReportDate===p.date_created){
+                        return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Price:"+p.price+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
+                        }
                     })}</div>
+                    
                 </div>
             </div>
 
