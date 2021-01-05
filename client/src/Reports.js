@@ -9,13 +9,14 @@ const defaultValues = {
     name: "",
     price: "",
     vendor: "",
-    quantity:"",
-    date_created:"",
+    quantity: "",
+    date_created: "",
 }
 
 const defaultKey = {
     market: "",
     vendor: "",
+    date_created: "",
 }
 
 const Reports = () => {
@@ -45,7 +46,7 @@ const Reports = () => {
     const [selectedReport, setSelectedReport] = useState('')
     const [selectedReportDate, setSelectedReportDate] = useState('')
 
-
+    const [ReportDate, setReportDate] = useState('')
 
 
     const getCart = async () => {
@@ -85,7 +86,6 @@ const Reports = () => {
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     let salesTotal = 0
-    console.log(date)
 
     useEffect(() => { getCart() }, [])
     useEffect(() => { getProducts() }, [])
@@ -131,11 +131,28 @@ const Reports = () => {
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                 Report
                 <div style={{ backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}
-                    onClick={() => { setNewReportDisplay("block") }}
+                    onClick={() => { 
+                        setNewReportDisplay("block") 
+                    }}
                 >New Report</div>
                 <div id="overlay2" style={{ display: newReportDisplay }}>
                     <div id="text">
-                        <p>{date}</p>
+                        <div>
+                            <label>Date:</label>
+                            <input
+                                className="w3-input"
+                                style={{
+                                    borderRadius: "25px",
+                                    marginBottom: "20px",
+                                    textAlign: "center"
+                                }}
+                                onChange={(e) => {
+                                    setInputsKey({ ...inputsKey, date_created: e.target.value })
+                                    setReportDate(e.target.value)
+                                }}
+                                type="date"
+                            />
+                        </div>
                         <p>Select Location</p>
 
                         <div>{eventVendors.map((p) => {
@@ -145,112 +162,118 @@ const Reports = () => {
                                         <div className="item" style={{ margin: "10px" }}
                                             onClick={() => {
                                                 setReportLocation(p.eventName)
-                                                setInputsKey({ ...inputsKey, market: p.eventName, vendor: (user ? user.username : " ")})
+                                                setInputsKey({ ...inputsKey, market: p.eventName, vendor: (user ? user.username : " ") })
                                             }}
                                         >{p.eventName}</div>
                                     )
                                 }
                             }
                         })}</div>
-                        <div className="item" onClick={()=>{
-                            let shouldAdd=true
-                            reportKey.forEach((p)=>{
-                                if((p.date_created===date)&&(p.market===reportLocation)){
-                                    shouldAdd=false
+                        <div className="item" onClick={() => {
+                            let shouldAdd = true
+                            reportKey.forEach((p) => {
+                                if ((p.date_created === ReportDate) && (p.market === reportLocation)) {
+                                    shouldAdd = false
                                     alert("report already exists")
                                 }
-                            }) 
-                            if(shouldAdd){
-                            handleSubmitKey()
+                            })
+                            if (shouldAdd) {
+                                handleSubmitKey()
                             }
                             setDisplayReport("block")
                             setNewReportDisplay("none")
                         }
-                    }>Confirm</div>
+                        }>Confirm</div>
                     </div>
                 </div>
 
 
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                     <div>{reportKey.map((p) => {
-                        return (<div onClick={()=>{
-                                setSelectedReport(p.market)
-                                setSelectedReportDate(p.date_created)
-                            loadList.map((p)=>{
-                                if(selectedReport===p.market){
-                                return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Price:"+p.price+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
-                              }
+                        return (<div onClick={() => {
+                            setSelectedReport(p.market)
+                            setSelectedReportDate(p.date_created)
+                            loadList.map((p) => {
+                                if (selectedReport === p.market) {
+                                    return (<div className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>{p.date_created + " | " + p.vendor + " | " + p.name + " | Price:" + p.price + " | Quantity:" + p.quantity + " | Market:" + p.market}</div>)
+                                }
                             })
-                          
+
                         }}
-                            className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{ p.market+" | "+p.date_created}</div>)
+                            className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>{p.market + " | " + p.date_created}</div>)
                     })}</div>
                 </div>
 
-                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px", display: displayReport }}>
-                    products
-                <div className="container">
-                        {products.map((p) => {
-                            if (user) {
-                                if (p.vendor === user.username) {
-                                    return (
-                                        <>
-                                            <div className="item" style={{ padding: "5px" }}
-                                                onClick={() => {
-                                                    setOverlayDisplay('block')
-                                                    setOverlayContent(p.name)
-                                                    setInputs({ ...inputs, market: selectedReport, name: p.name, price: "0", vendor: (user ? user.username : " "),date_created:selectedReportDate})
 
-                                                }}>{p.name}</div>
-
-                                            <div id="overlay2" style={{ display: overlayDisplay }}>
-                                                <div id="text" style={{ backgroundColor: "#f5f5f5" }}>
-                                                    <p>{overlayContent}</p>
-                                                    <div>
-                                                        <label>Quantity:</label>
-                                                        <input
-                                                            className="w3-input"
-                                                            style={{
-                                                                borderRadius: "25px",
-                                                                marginBottom: "20px",
-                                                                textAlign: "center"
-                                                            }}
-                                                            onChange={(e) => {
-                                                                setCurrentQuantity(e.target.value)
-                                                                setInputs({ ...inputs,quantity:e.target.value })
-                                                            }}
-                                                            type="number"
-                                                            value={currentQuantity}
-                                                        />
-                                                    </div>
-                                                    <div style={{ display: "inline", backgroundColor: "gray", borderRadius: "25px", padding: "10px", margin: "5px" }}
-                                                        onClick={() => {
-                                                            setOverlayDisplay('none')
-                                                        }}>Close</div>
-                                                    <div style={{ display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}
-                                                        onClick={() => {
-                                                            setOverlayDisplay('none')
-                                                            handleSubmit()
-                                                        }}
-                                                    >+</div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    )
-                                }
-                            }
-                        })}
-                    </div>
-                </div>
 
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                     {date + " " + selectedReport}
                     <div>{loadList.map((p) => {
-                        if(selectedReport===p.market&&selectedReportDate===p.date_created){
-                        return (<div className="item" style={{margin:"10px",textAlign:"left",paddingLeft:"10px"}}>{p.date_created+" | "+p.vendor + " | " + p.name+" | Price:"+p.price+" | Quantity:"+p.quantity+" | Market:"+p.market}</div>)
+                        if (selectedReport === p.market && selectedReportDate === p.date_created) {
+                            return (
+                                <div className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>
+                                    {p.date_created + " | " + p.vendor + " | " + p.name + " | Price:" + p.price + " | Quantity:" + p.quantity + " | Market:" + p.market}
+                                </div>
+                            )
                         }
-                    })}</div>
-                    
+                    })}
+                    </div>
+
+                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px", display: displayReport }}>
+                        add products to report
+                <div className="container">
+                            {products.map((p) => {
+                                if (user) {
+                                    if (p.vendor === user.username) {
+                                        return (
+                                            <>
+                                                <div className="item" style={{ padding: "5px" }}
+                                                    onClick={() => {
+                                                        setOverlayDisplay('block')
+                                                        setOverlayContent(p.name)
+                                                        setInputs({ ...inputs, market: selectedReport, name: p.name, price: "0", vendor: (user ? user.username : " "), date_created: selectedReportDate })
+
+                                                    }}>{p.name}</div>
+
+                                                <div id="overlay2" style={{ display: overlayDisplay }}>
+                                                    <div id="text" style={{ backgroundColor: "#f5f5f5" }}>
+                                                        <p>{overlayContent}</p>
+                                                        <div>
+                                                            <label>Quantity:</label>
+                                                            <input
+                                                                className="w3-input"
+                                                                style={{
+                                                                    borderRadius: "25px",
+                                                                    marginBottom: "20px",
+                                                                    textAlign: "center"
+                                                                }}
+                                                                onChange={(e) => {
+                                                                    setCurrentQuantity(e.target.value)
+                                                                    setInputs({ ...inputs, quantity: e.target.value })
+                                                                }}
+                                                                type="number"
+                                                                value={currentQuantity}
+                                                            />
+                                                        </div>
+                                                        <div style={{ display: "inline", backgroundColor: "gray", borderRadius: "25px", padding: "10px", margin: "5px" }}
+                                                            onClick={() => {
+                                                                setOverlayDisplay('none')
+                                                            }}>Close</div>
+                                                        <div style={{ display: "inline", backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}
+                                                            onClick={() => {
+                                                                setOverlayDisplay('none')
+                                                                handleSubmit()
+                                                            }}
+                                                        >+</div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )
+                                    }
+                                }
+                            })}
+                        </div>
+                    </div>
                 </div>
             </div>
 
