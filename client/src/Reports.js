@@ -119,70 +119,9 @@ const Reports = () => {
 
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                 Report
-                <div style={{ backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}
-                    onClick={() => { 
-                        setNewReportDisplay("block") 
-                    }}
-                >New Report</div>
-                <div id="overlay2" style={{ display: newReportDisplay }}>
-                    <div id="text">
-                        <div>
-                            <label>Date:</label>
-                            <input
-                                className="w3-input"
-                                style={{
-                                    borderRadius: "25px",
-                                    marginBottom: "20px",
-                                    textAlign: "center"
-                                }}
-                                onChange={(e) => {
-                                    setInputsKey({ ...inputsKey, date_created: e.target.value })
-                                    setReportDate(e.target.value)
-                                }}
-                                type="date"
-                            />
-                        </div>
-                        <p>Select Location</p>
-
-                        <div>{eventVendors.map((p) => {
-                            if (user) {
-                                if (p.vendorName === user.username) {
-                                    return (
-                                        <div className="item" style={{ margin: "10px" }}
-                                            onClick={() => {
-                                                setReportLocation(p.eventName)
-                                                setInputsKey({ ...inputsKey, market: p.eventName, vendor: (user ? user.username : " ") })
-                                            }}
-                                        >{p.eventName}</div>
-                                    )
-                                }
-                            }
-                        })}</div>
-                        <div className="item"  style={{backgroundColor: "#0063a0"}}
-                        onClick={() => {
-                            let shouldAdd = true
-                            reportKey.forEach((p) => {
-                                if ((p.date_created === ReportDate) && (p.market === reportLocation)) {
-                                    shouldAdd = false
-                                    alert("report already exists")
-                                }
-                            })
-                            if (shouldAdd) {
-                                handleSubmitKey()
-                            }
-                            setNewReportDisplay("none")
-                        }
-                        }>Confirm</div>
-                     <div className="item"  style={{backgroundColor: "#0063a0",marginTop:"10px"}}
-                     onClick={()=>{setNewReportDisplay("none")}}
-                     >Close</div>
-
-                    </div>
-                </div>
-
-
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                     <div>{reportKey.map((p) => {
+                        if(p.vendor===(user?user.username:"")){
                         return (<div onClick={() => {
                             setSelectedReport(p.market)
                             setSelectedReportDate(p.date_created)
@@ -191,17 +130,81 @@ const Reports = () => {
                                 if (selectedReport === p.market) {
                                     return (<div className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>{p.date_created + " | " + p.vendor + " | " + p.name + " | Price:" + p.price + " | Quantity:" + p.quantity + " | Market:" + p.market}</div>)
                                 }
-                            })
-
+                            }) 
                         }}
                             className="item" style={{ margin: "10px", textAlign: "left", paddingLeft: "10px" }}>{p.market + " | " + p.date_created}</div>)
-                    })}</div>
+                    }
+                        }
+                    )}</div>
+                    <div style={{ backgroundColor: "#2e8b57", borderRadius: "25px", padding: "10px", margin: "5px" }}
+                        onClick={() => {
+                            setNewReportDisplay("block")
+                        }}
+                    >New Report</div>
+                    <div id="overlay2" style={{ display: newReportDisplay }}>
+                        <div id="text">
+                            <div>
+                                <label>Date:</label>
+                                <input
+                                    className="w3-input"
+                                    style={{
+                                        borderRadius: "25px",
+                                        marginBottom: "20px",
+                                        textAlign: "center"
+                                    }}
+                                    onChange={(e) => {
+                                        setInputsKey({ ...inputsKey, date_created: e.target.value })
+                                        setReportDate(e.target.value)
+                                    }}
+                                    type="date"
+                                />
+                            </div>
+                            <p>Select Location</p>
+
+                            <div>{eventVendors.map((p) => {
+                                if (user) {
+                                    if (p.vendorName === user.username) {
+                                        return (
+                                            <div className="item" style={{ margin: "10px" }}
+                                                onClick={() => {
+                                                    setReportLocation(p.eventName)
+                                                    setInputsKey({ ...inputsKey, market: p.eventName, vendor: (user ? user.username : " ") })
+                                                }}
+                                            >{p.eventName}</div>
+                                        )
+                                    }
+                                }
+                            })}</div>
+                            <div className="item" style={{ backgroundColor: "#0063a0" }}
+                                onClick={() => {
+                                    let shouldAdd = true
+                                    reportKey.forEach((p) => {
+                                        if ((p.date_created === ReportDate) && (p.market === reportLocation)) {
+                                            shouldAdd = false
+                                            alert("report already exists")
+                                        }
+                                    })
+                                    if (shouldAdd) {
+                                        handleSubmitKey()
+                                    }
+                                    setNewReportDisplay("none")
+                                }
+                                }>Confirm</div>
+                            <div className="item" style={{ backgroundColor: "#0063a0", marginTop: "10px" }}
+                                onClick={() => { setNewReportDisplay("none") }}
+                            >Close</div>
+
+                        </div>
+                    </div>
+
                 </div>
 
 
 
-                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px", display:ReportDisplay}}>
+                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px", display: ReportDisplay }}>
                     {selectedReportDate + " " + selectedReport}
+                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px" }}>
+
                     <div>{loadList.map((p) => {
                         if (selectedReport === p.market && selectedReportDate === p.date_created) {
                             return (
@@ -212,8 +215,9 @@ const Reports = () => {
                         }
                     })}
                     </div>
+                    </div>
 
-                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px"}}>
+                    <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "1%", padding: "5px" }}>
                         add products to report
                 <div className="container">
                             {products.map((p) => {
@@ -270,11 +274,11 @@ const Reports = () => {
                     </div>
                     <div style={{ backgroundColor: "#0063a0", borderRadius: "25px", padding: "10px", margin: "5px" }}>Download CSV</div>
                     <div style={{ backgroundColor: "#0073a0", borderRadius: "25px", padding: "5px", margin: "5px" }}
-                     onClick={()=>{
-                        setReportDisplay("none")
+                        onClick={() => {
+                            setReportDisplay("none")
 
-                      }}
-                     >Close</div>
+                        }}
+                    >Close</div>
                 </div>
             </div>
         </div>
