@@ -9,24 +9,30 @@ const defaultValues = {
     quantity: "",
     vendor: "",
     url: "",
-    _id:""
+    _id: ""
 }
 
+const defaultValueE = {
+    employeeName: "",
+    vendor: ""
+}
 
 
 const ProductsPage = () => {
 
     const { user } = useAuthState()
     const [products, setProducts] = useState([])
+    const [employee, setEmployee] = useState([])
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [inputs, setInputs] = useState(defaultValues)
+    const [inputE, setInputE] = useState(defaultValueE)
 
     const [cart, setCart] = useState([])
 
     const Item = ({ product, ...props }) =>
         (
             <div className="item2" {...props}>
-                <img style={{ width: "100%", borderRadius:" 20px 20px 0px 0px"}} src={product.url} alt="Untitled-Artwork" border="0" />
+                <img style={{ width: "100%", borderRadius: " 20px 20px 0px 0px" }} src={product.url} alt="Untitled-Artwork" border="0" />
                 <p>{product.name} ${product.price}</p>
             </div>
         )
@@ -34,6 +40,11 @@ const ProductsPage = () => {
     const getCart = async () => {
         const res = await axios.get("/api/cart")
         setCart(res.data)
+    }
+
+    const getEmployees = async () => {
+        const res = await axios.get("/api/employee")
+        setEmployee(res.data)
     }
 
     const getProducts = async () => {
@@ -52,12 +63,12 @@ const ProductsPage = () => {
     }
 
     const declineCart = async (p) => {
-        const res = await axios.put(`/api/cart/${p._id}`, { status: "Denied", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName , cartVendor: p.cartVendor})
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Denied", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName, cartVendor: p.cartVendor })
         setCart(res.data)
     }
 
     const confirmCart = async (p) => {
-        const res = await axios.put(`/api/cart/${p._id}`, { status: "Confirm", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName , cartVendor: p.cartVendor})
+        const res = await axios.put(`/api/cart/${p._id}`, { status: "Confirm", cartUser: p.cartUser, cartPrice: p.cartPrice, cartName: p.cartName, cartVendor: p.cartVendor })
         setCart(res.data)
     }
 
@@ -76,8 +87,17 @@ const ProductsPage = () => {
         setSelectedProduct(null)
     }
 
+    const handleSubmitEmployee = async (event) => {
+        const res = await axios.post("/api/employee", inputE)
+        setEmployee(res.data)
+        setInputE(defaultValueE)
+    }
+
+
     useEffect(() => { getProducts() }, [])
     useEffect(() => { getCart() }, [])
+    useEffect(() => { getEmployees() }, [])
+
 
     return (
         <div>
@@ -86,7 +106,7 @@ const ProductsPage = () => {
 
             <h1 style={{ textAlign: "center", textDecoration: "underline" }}>Inventory</h1>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "10px" }}>
                 <div className="container">
                     {
                         products.map(p => {
@@ -106,86 +126,87 @@ const ProductsPage = () => {
             </div>
 
 
-            <div className="item2" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%"}}>
+            <div className="item2" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
 
                 <form //Edit Product
                     onSubmit={handleSubmit}
                 >
-                    <div                
-                    onClick={(event) => {
-                    event.stopPropagation()
-                    const shouldDelete = window.confirm('delete product')
-                    if (shouldDelete) {
-                        handleDelete(inputs._id, event)
-                    }}} 
-                    style={{ backgroundColor: "#AC3C40", borderRadius: "25px 0px 10px",padding:"15px", display:selectedProduct ? "inline-block" : "none"}}>Delete</div>
-                    <h2 style={{ display: "inline",paddingLeft:"10px"}}>
+                    <div
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            const shouldDelete = window.confirm('delete product')
+                            if (shouldDelete) {
+                                handleDelete(inputs._id, event)
+                            }
+                        }}
+                        style={{ backgroundColor: "#AC3C40", borderRadius: "25px 0px 10px", padding: "15px", display: selectedProduct ? "inline-block" : "none" }}>Delete</div>
+                    <h2 style={{ display: "inline", paddingLeft: "10px" }}>
                         {selectedProduct ? "Edit Product" : "New Product"}
                     </h2>
-                    <div style={{ float:"right",backgroundColor: "#2e8b57", padding:"15px",marginBottom:"10px", borderRadius: "0px 25px 0px", display:selectedProduct ? "inline-block" : "none"}}
-                        onClick={()=>{
+                    <div style={{ float: "right", backgroundColor: "#2e8b57", padding: "15px", marginBottom: "10px", borderRadius: "0px 25px 0px", display: selectedProduct ? "inline-block" : "none" }}
+                        onClick={() => {
                             setSelectedProduct(null)
                             setInputs(defaultValues)
-                            }}>New</div>
-             <div style={{padding:"10px"}}>
+                        }}>New</div>
+                    <div style={{ padding: "10px" }}>
 
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={inputs.name}
-                        onChange={e => setInputs({ ...inputs, name: e.target.value, vendor: (user ? user.username : " ") })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={inputs.name}
+                            onChange={e => setInputs({ ...inputs, name: e.target.value, vendor: (user ? user.username : " ") })}
+                            className="w3-input"
+                            style={{ borderRadius: "25px" }}
+                        />
 
-                    <br />
+                        <br />
 
-                    <input
-                        type="text"
-                        placeholder="Price"
-                        value={inputs.price}
-                        onChange={e => setInputs({ ...inputs, price: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Price"
+                            value={inputs.price}
+                            onChange={e => setInputs({ ...inputs, price: e.target.value })}
+                            className="w3-input"
+                            style={{ borderRadius: "25px" }}
+                        />
 
-                    <br />
+                        <br />
 
-                    <input
-                        type="text"
-                        placeholder="Quantity"
-                        value={inputs.quantity}
-                        onChange={e => setInputs({ ...inputs, quantity: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Quantity"
+                            value={inputs.quantity}
+                            onChange={e => setInputs({ ...inputs, quantity: e.target.value })}
+                            className="w3-input"
+                            style={{ borderRadius: "25px" }}
+                        />
 
-                    <br />
+                        <br />
 
-                    <input
-                        type="text"
-                        placeholder="Img Url"
-                        value={inputs.url}
-                        onChange={e => setInputs({ ...inputs, url: e.target.value })}
-                        className="w3-input"
-                        style={{ borderRadius: "25px" }}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Img Url"
+                            value={inputs.url}
+                            onChange={e => setInputs({ ...inputs, url: e.target.value })}
+                            className="w3-input"
+                            style={{ borderRadius: "25px" }}
+                        />
 
-                    <br />
+                        <br />
 
-                    <input
-                        type="submit"
-                        value="Submit"
-                        className="w3-btn"
-                        style={{ borderRadius: "25px", width: "100%", backgroundColor: "#AC3C40" }}
-                    />
-               </div>
+                        <input
+                            type="submit"
+                            value="Submit"
+                            className="w3-btn"
+                            style={{ borderRadius: "25px", width: "100%", backgroundColor: "#AC3C40" }}
+                        />
+                    </div>
 
                 </form>
 
             </div>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding:"10px" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "10px" }}>
                 <h2 style={{ textAlign: "center" }}>Requests</h2>
                 <div className="container">
                     {
@@ -194,7 +215,7 @@ const ProductsPage = () => {
                                 return (
                                     <div className="item" key={p._id}>
                                         <p>{p.cartName}</p>
-                                        <div style={{ padding:'15px' }}>
+                                        <div style={{ padding: '15px' }}>
                                             <div
                                                 onClick={() => {
                                                     const shouldAdd = window.confirm('Confirm Accept')
@@ -207,9 +228,9 @@ const ProductsPage = () => {
                                             <div
                                                 onClick={() => {
                                                     const shouldAdd = window.confirm('Confirm Decline')
-                                                        if (shouldAdd) {
-                                                            declineCart(p)
-                                                        }
+                                                    if (shouldAdd) {
+                                                        declineCart(p)
+                                                    }
                                                 }}
                                                 style={{ display: "inline", backgroundColor: "#AC3C40", borderRadius: "25px", padding: "10px", margin: "5px" }}>Decline</div>
                                         </div>
@@ -221,24 +242,24 @@ const ProductsPage = () => {
                 </div>
             </div>
 
-            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "10px" }}>
                 <h2 style={{ textAlign: "center" }}>Orders</h2>
                 <div className="container">
                     {
                         cart.map(p => {
                             if ((p.cartVendor === (user ? user.username : " ")) && (p.status === "Accepted")) {
                                 return (
-                                    <div className="item" key={p._id} style={{padding:"15px"}}>
+                                    <div className="item" key={p._id} style={{ padding: "15px" }}>
                                         <p>{p.cartName}</p>
 
-                                        <div 
-                                                onClick={() => {
-                                                    const shouldAdd = window.confirm('Confirm Decline')
-                                                        if (shouldAdd) {
-                                                            confirmCart(p)
-                                                        }
-                                                }}
-                                                style={{ display: "inline", backgroundColor: "#339966", borderRadius: "25px", padding: "10px", margin: "5px" }}>Confirm</div>
+                                        <div
+                                            onClick={() => {
+                                                const shouldAdd = window.confirm('Confirm Decline')
+                                                if (shouldAdd) {
+                                                    confirmCart(p)
+                                                }
+                                            }}
+                                            style={{ display: "inline", backgroundColor: "#339966", borderRadius: "25px", padding: "10px", margin: "5px" }}>Confirm</div>
                                     </div>
                                 )
                             }
@@ -247,6 +268,29 @@ const ProductsPage = () => {
                 </div>
             </div>
 
+            <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "10px" }}>
+                <h2 style={{ textAlign: "center" }}>Employees</h2>
+                <div className="container">{employee.map((p) => {
+                    return (
+                            <div className="item">{p.employeeName}</div>
+                    )
+                })}</div>
+                <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", padding: "10px" }}>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={inputE.employeeName}
+                        onChange={e => setInputE({ ...inputE, employeeName: e.target.value, vendor: (user ? user.username : "") })}
+                        className="w3-input"
+                        style={{ borderRadius: "25px"}}
+                    />
+                    <div style={{ borderRadius: "25px", width: "100%", backgroundColor: "#0063a0",marginTop:"10px" }}
+                        onClick={() => {
+                            handleSubmitEmployee()
+                        }}
+                    >+</div>
+                </div>
+            </div>
         </div>
     )
 }

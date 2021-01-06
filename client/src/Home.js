@@ -242,14 +242,14 @@ const Home = () => {
 
 
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%" }}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "5%",padding:"10px" }}>
         <h2 style={{ color: "black", textAlign: "left", paddingLeft: "5%" }}>Order Status</h2>
         <div className="container">
           {
             cart.map((p) => {
               if ((p.cartUser === (user ? user.username : " ")) && (p.status === "pending...")) {
                 return (
-                  <div className="item" key={p._id}>
+                  <div className="item" key={p._id} style={{padding:"10px"}}>
                     <p>{p.cartName}</p>
                     <p style={{ backgroundColor: "Orange", borderRadius: "25px" }}>{p.status}</p>
 
@@ -258,7 +258,7 @@ const Home = () => {
               }
               else if ((p.cartUser === (user ? user.username : " ")) && (p.status === "Accepted")) {
                 return (
-                  <div className="item" key={p._id}>
+                  <div className="item" key={p._id} style={{padding:"10px"}}>
                     <p>{p.cartName}</p>
                     <p style={{ backgroundColor: "Green", borderRadius: "25px" }}>{p.status}</p>
 
@@ -267,7 +267,7 @@ const Home = () => {
               }
               else if ((p.cartUser === (user ? user.username : " ")) && (p.status === "Denied")) {
                 return (
-                  <div className="item" key={p._id}>
+                  <div className="item" key={p._id} style={{padding:"10px"}}>
                     <p>{p.cartName}</p>
                     <p style={{ backgroundColor: "#AC3C40", borderRadius: "25px" }}>{p.status}</p>
 

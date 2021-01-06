@@ -118,7 +118,7 @@ const Reports = () => {
 
 
             <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
-                Report
+                Reports
                 <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%", padding: "5px" }}>
                     <div>{reportKey.map((p) => {
                         if(p.vendor===(user?user.username:"")){

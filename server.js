@@ -22,6 +22,8 @@ require("./models/cart");
 require("./models/eventVendor");
 require("./models/loadList");
 require("./models/reportKey");
+require("./models/employee");
+require("./models/punchCard");
 
 
 
@@ -52,9 +54,8 @@ require("./routes/cartRoutes")(app);
 require("./routes/eventVendorRoutes")(app);
 require("./routes/loadListRoutes")(app);
 require("./routes/reportKeyRoutes")(app);
-
-
-
+require("./routes/employeeRoutes")(app);
+require("./routes/punchCardRoutes")(app);
 
 
 if (process.env.NODE_ENV === "production") {

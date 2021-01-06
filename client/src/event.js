@@ -148,7 +148,7 @@ const Event = () => {
 
       <br/>
 
-      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+      <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
         <form //Create/Edit Event
           onSubmit={handleSubmit}>
 
@@ -217,7 +217,7 @@ const Event = () => {
         </form>
       </div>
         <br/>
-        <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%" }}>
+        <div className="item" style={{ backgroundColor: "rgba(0,0,50,0.1)", margin: "3%",padding:"10px" }}>
 
       <h2 style={{ textAlign: "center" }}>{selectedEvent ? "Edit Vendors" : "New Vendor"}</h2>
 
